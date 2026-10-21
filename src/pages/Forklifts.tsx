@@ -65,29 +65,29 @@ export default function Forklifts() {
           <table className="w-full text-sm">
             <thead>
               <tr className="table-header">
-                <th className="text-left p-4 font-medium text-xs uppercase tracking-wider" style={{ color: 'var(--text-muted)' }}>{t('brand')}</th>
-                <th className="text-left p-4 font-medium text-xs uppercase tracking-wider" style={{ color: 'var(--text-muted)' }}>{t('truckId')}</th>
-                <th className="text-left p-4 font-medium text-xs uppercase tracking-wider hidden md:table-cell" style={{ color: 'var(--text-muted)' }}>{t('serialNumber')}</th>
-                <th className="text-left p-4 font-medium text-xs uppercase tracking-wider" style={{ color: 'var(--text-muted)' }}>{t('assignedOperator')}</th>
-                <th className="text-left p-4 font-medium text-xs uppercase tracking-wider" style={{ color: 'var(--text-muted)' }}>{t('actions')}</th>
+                <th className="text-left px-5 py-3.5 text-label" style={{ color: 'var(--text-muted)' }}>{t('brand')}</th>
+                <th className="text-left px-5 py-3.5 text-label" style={{ color: 'var(--text-muted)' }}>{t('truckId')}</th>
+                <th className="text-left px-5 py-3.5 text-label hidden md:table-cell" style={{ color: 'var(--text-muted)' }}>{t('serialNumber')}</th>
+                <th className="text-left px-5 py-3.5 text-label" style={{ color: 'var(--text-muted)' }}>{t('assignedOperator')}</th>
+                <th className="text-left px-5 py-3.5 text-label" style={{ color: 'var(--text-muted)' }}>{t('actions')}</th>
               </tr>
             </thead>
             <tbody>
               {filtered.length === 0 ? (
-                <tr><td colSpan={5} className="text-center p-12" style={{ color: 'var(--text-muted)' }}>{t('noData')}</td></tr>
+                <tr><td colSpan={5} className="text-center py-16" style={{ color: 'var(--text-muted)' }}>{t('noData')}</td></tr>
               ) : (
                 filtered.map(item => (
                   <tr key={item.id} className="table-row">
-                    <td className="p-4 font-medium" style={{ color: 'var(--text-primary)' }}>{item.brand}</td>
-                    <td className="p-4">
-                      <span className="badge" style={{ backgroundColor: 'rgba(93, 169, 246, 0.1)', color: 'var(--accent)' }}>{item.truckId}</span>
+                    <td className="px-5 py-3.5 font-medium" style={{ color: 'var(--text-primary)' }}>{item.brand}</td>
+                    <td className="px-5 py-3.5">
+                      <span className="badge" style={{ backgroundColor: 'var(--accent-light)', color: 'var(--accent)' }}>{item.truckId}</span>
                     </td>
-                    <td className="p-4 hidden md:table-cell font-mono text-xs" style={{ color: 'var(--text-secondary)' }}>{item.serialNumber}</td>
-                    <td className="p-4" style={{ color: 'var(--text-secondary)' }}>{item.assignedOperator}</td>
-                    <td className="p-4">
-                      <div className="flex gap-1">
-                        <button onClick={() => handleEdit(item)} className="p-2 rounded-lg transition-colors" style={{ color: 'var(--accent)' }}><Edit2 size={14} /></button>
-                        <button onClick={() => handleDelete(item.id)} className="p-2 rounded-lg transition-colors" style={{ color: '#EF4444' }}><Trash2 size={14} /></button>
+                    <td className="px-5 py-3.5 hidden md:table-cell font-mono text-caption" style={{ color: 'var(--text-secondary)' }}>{item.serialNumber}</td>
+                    <td className="px-5 py-3.5" style={{ color: 'var(--text-secondary)' }}>{item.assignedOperator}</td>
+                    <td className="px-5 py-3.5">
+                      <div className="flex gap-0.5">
+                        <button onClick={() => handleEdit(item)} className="p-1.5 rounded-md hover:bg-blue-50 dark:hover:bg-blue-900/20" style={{ color: 'var(--accent)' }}><Edit2 size={14} /></button>
+                        <button onClick={() => handleDelete(item.id)} className="p-1.5 rounded-md hover:bg-red-50 dark:hover:bg-red-900/20" style={{ color: 'var(--danger)' }}><Trash2 size={14} /></button>
                       </div>
                     </td>
                   </tr>

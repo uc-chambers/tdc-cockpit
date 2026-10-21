@@ -4,7 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
 import {
   LayoutDashboard, Users, Phone, Truck, Radio, ClipboardList,
-  Menu, X, Globe, LogOut, StickyNote, ListTodo, Sun, Moon
+  Menu, Globe, LogOut, StickyNote, ListTodo, Sun, Moon
 } from 'lucide-react';
 
 interface LayoutProps {
@@ -32,10 +32,9 @@ export default function Layout({ children, currentPage, onNavigate }: LayoutProp
 
   return (
     <div className="flex h-screen overflow-hidden" style={{ backgroundColor: 'var(--bg-page)' }}>
-      {/* Mobile overlay */}
       {sidebarOpen && (
         <div
-          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-30 lg:hidden"
+          className="fixed inset-0 bg-black/40 backdrop-blur-sm z-30 lg:hidden"
           onClick={() => setSidebarOpen(false)}
         />
       )}
@@ -43,23 +42,23 @@ export default function Layout({ children, currentPage, onNavigate }: LayoutProp
       {/* Sidebar */}
       <aside className={`
         sidebar fixed lg:static inset-y-0 left-0 z-40
-        w-64 transform transition-transform duration-300 ease-in-out
+        w-[260px] transform transition-transform duration-300 ease-in-out
         ${sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
         flex flex-col
       `}>
         {/* Logo */}
-        <div className="p-5 border-b flex items-center gap-3" style={{ borderColor: 'var(--border-color)' }}>
-          <div className="w-10 h-10 rounded-xl gradient-blue flex items-center justify-center font-bold text-white text-lg shadow-lg">
+        <div className="px-5 py-4 border-b flex items-center gap-3" style={{ borderColor: 'var(--border-color)' }}>
+          <div className="w-9 h-9 rounded-lg gradient-blue flex items-center justify-center font-bold text-white text-sm shadow-sm">
             T
           </div>
-          <div>
-            <h1 className="font-semibold text-sm" style={{ color: 'var(--text-primary)' }}>TDC Cockpit</h1>
-            <p className="text-xs" style={{ color: 'var(--text-muted)' }}>Operations Hub</p>
+          <div className="flex-1 min-w-0">
+            <h1 className="font-semibold text-sm truncate" style={{ color: 'var(--text-primary)' }}>TDC Cockpit</h1>
+            <p className="text-xs truncate" style={{ color: 'var(--text-muted)' }}>Operations Hub</p>
           </div>
         </div>
 
         {/* Navigation */}
-        <nav className="flex-1 p-3 space-y-1 overflow-y-auto">
+        <nav className="flex-1 px-3 py-4 space-y-0.5 overflow-y-auto">
           {navItems.map((item) => {
             const Icon = item.icon;
             const isActive = currentPage === item.id;
@@ -69,7 +68,7 @@ export default function Layout({ children, currentPage, onNavigate }: LayoutProp
                 onClick={() => { onNavigate(item.id); setSidebarOpen(false); }}
                 className={`nav-item w-full flex items-center gap-3 ${isActive ? 'active' : ''}`}
               >
-                <Icon size={18} />
+                <Icon size={18} strokeWidth={isActive ? 2.5 : 2} />
                 <span>{item.label}</span>
               </button>
             );
@@ -77,33 +76,25 @@ export default function Layout({ children, currentPage, onNavigate }: LayoutProp
         </nav>
 
         {/* Bottom section */}
-        <div className="p-4 border-t space-y-2" style={{ borderColor: 'var(--border-color)' }}>
+        <div className="px-3 py-3 border-t space-y-1" style={{ borderColor: 'var(--border-color)' }}>
           {/* Theme Toggle */}
           <button
             onClick={toggleTheme}
-            className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition-all hover:bg-opacity-80"
-            style={{ 
-              backgroundColor: 'var(--bg-surface-secondary)',
-              color: 'var(--text-secondary)'
-            }}
+            className="nav-item w-full flex items-center gap-3"
           >
-            {theme === 'light' ? <Moon size={16} /> : <Sun size={16} />}
-            <span className="flex-1 text-left">{theme === 'light' ? 'Dark Mode' : 'Light Mode'}</span>
+            {theme === 'light' ? <Moon size={18} /> : <Sun size={18} />}
+            <span className="flex-1 text-left text-sm">{theme === 'light' ? 'Dark Mode' : 'Light Mode'}</span>
           </button>
 
           {/* Language Switch */}
           <button
             onClick={() => setLanguage(language === 'en' ? 'es' : 'en')}
-            className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition-all hover:bg-opacity-80"
-            style={{ 
-              backgroundColor: 'var(--bg-surface-secondary)',
-              color: 'var(--text-secondary)'
-            }}
+            className="nav-item w-full flex items-center gap-3"
           >
-            <Globe size={16} />
-            <span className="flex-1 text-left">{language === 'en' ? 'English' : 'Español'}</span>
-            <span className="text-xs px-2 py-0.5 rounded-full" style={{ 
-              backgroundColor: 'rgba(93, 169, 246, 0.1)',
+            <Globe size={18} />
+            <span className="flex-1 text-left text-sm">{language === 'en' ? 'English' : 'Español'}</span>
+            <span className="text-xs px-1.5 py-0.5 rounded" style={{ 
+              backgroundColor: 'var(--accent-light)',
               color: 'var(--accent)'
             }}>
               {language === 'en' ? 'ES' : 'EN'}
@@ -113,11 +104,10 @@ export default function Layout({ children, currentPage, onNavigate }: LayoutProp
           {/* Logout */}
           <button
             onClick={logout}
-            className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition-all hover:bg-red-50 dark:hover:bg-red-900/20"
-            style={{ color: 'var(--text-secondary)' }}
+            className="nav-item w-full flex items-center gap-3 hover:!text-red-500 hover:!bg-red-50 dark:hover:!bg-red-900/20"
           >
-            <LogOut size={16} />
-            <span>{t('logout')}</span>
+            <LogOut size={18} />
+            <span className="text-sm">{t('logout')}</span>
           </button>
         </div>
       </aside>
@@ -126,7 +116,7 @@ export default function Layout({ children, currentPage, onNavigate }: LayoutProp
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* Top bar */}
         <header 
-          className="h-16 flex items-center justify-between px-4 lg:px-6 shrink-0 border-b"
+          className="h-14 flex items-center justify-between px-4 lg:px-6 shrink-0 border-b"
           style={{ 
             backgroundColor: 'var(--bg-surface)',
             borderColor: 'var(--border-color)'
@@ -134,18 +124,18 @@ export default function Layout({ children, currentPage, onNavigate }: LayoutProp
         >
           <button
             onClick={() => setSidebarOpen(true)}
-            className="lg:hidden p-2 rounded-lg transition-colors"
+            className="lg:hidden p-2 rounded-lg"
             style={{ color: 'var(--text-secondary)' }}
           >
             <Menu size={20} />
           </button>
-          <h2 className="text-lg font-semibold hidden lg:block" style={{ color: 'var(--text-primary)' }}>
+          <h2 className="text-subheading hidden lg:block" style={{ color: 'var(--text-primary)' }}>
             {navItems.find(n => n.id === currentPage)?.label}
           </h2>
-          <div className="flex items-center gap-3">
-            <span className="text-xs" style={{ color: 'var(--text-muted)' }}>
+          <div className="flex items-center gap-4">
+            <span className="text-caption hidden sm:block" style={{ color: 'var(--text-muted)' }}>
               {new Date().toLocaleDateString(language === 'en' ? 'en-US' : 'es-MX', {
-                weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+                weekday: 'short', month: 'short', day: 'numeric'
               })}
             </span>
           </div>

@@ -57,30 +57,30 @@ export default function Equipment() {
       {/* Stats */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <div className="card card-interactive p-5 flex items-center gap-4">
-          <div className="w-12 h-12 rounded-xl flex items-center justify-center" style={{ backgroundColor: 'rgba(53, 198, 200, 0.1)' }}>
-            <RadioIcon size={22} style={{ color: '#35C6C8' }} />
+          <div className="w-11 h-11 rounded-lg flex items-center justify-center" style={{ backgroundColor: 'rgba(6, 182, 212, 0.1)' }}>
+            <RadioIcon size={20} style={{ color: '#06B6D4' }} />
           </div>
           <div>
             <p className="text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>{radioCount}</p>
-            <p className="text-xs" style={{ color: 'var(--text-muted)' }}>{t('radio')}</p>
+            <p className="text-caption" style={{ color: 'var(--text-muted)' }}>{t('radio')}</p>
           </div>
         </div>
         <div className="card card-interactive p-5 flex items-center gap-4">
-          <div className="w-12 h-12 rounded-xl flex items-center justify-center" style={{ backgroundColor: 'rgba(93, 169, 246, 0.1)' }}>
-            <Monitor size={22} style={{ color: 'var(--accent)' }} />
+          <div className="w-11 h-11 rounded-lg flex items-center justify-center" style={{ backgroundColor: 'var(--accent-light)' }}>
+            <Monitor size={20} style={{ color: 'var(--accent)' }} />
           </div>
           <div>
             <p className="text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>{computerCount}</p>
-            <p className="text-xs" style={{ color: 'var(--text-muted)' }}>{t('computer')}</p>
+            <p className="text-caption" style={{ color: 'var(--text-muted)' }}>{t('computer')}</p>
           </div>
         </div>
         <div className="card card-interactive p-5 flex items-center gap-4">
-          <div className="w-12 h-12 rounded-xl flex items-center justify-center" style={{ backgroundColor: 'rgba(169, 140, 235, 0.1)' }}>
-            <span className="text-lg font-bold" style={{ color: '#A98CEB' }}>{equipment.length}</span>
+          <div className="w-11 h-11 rounded-lg flex items-center justify-center" style={{ backgroundColor: 'rgba(139, 92, 246, 0.1)' }}>
+            <span className="text-base font-bold" style={{ color: '#8B5CF6' }}>{equipment.length}</span>
           </div>
           <div>
             <p className="text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>{equipment.length}</p>
-            <p className="text-xs" style={{ color: 'var(--text-muted)' }}>{t('total')}</p>
+            <p className="text-caption" style={{ color: 'var(--text-muted)' }}>{t('total')}</p>
           </div>
         </div>
       </div>
@@ -123,35 +123,35 @@ export default function Equipment() {
           <table className="w-full text-sm">
             <thead>
               <tr className="table-header">
-                <th className="text-left p-4 font-medium text-xs uppercase tracking-wider" style={{ color: 'var(--text-muted)' }}>{t('type')}</th>
-                <th className="text-left p-4 font-medium text-xs uppercase tracking-wider" style={{ color: 'var(--text-muted)' }}>{t('brand')}</th>
-                <th className="text-left p-4 font-medium text-xs uppercase tracking-wider hidden md:table-cell" style={{ color: 'var(--text-muted)' }}>{t('assignedOperator')}</th>
-                <th className="text-left p-4 font-medium text-xs uppercase tracking-wider hidden lg:table-cell" style={{ color: 'var(--text-muted)' }}>{t('comments')}</th>
-                <th className="text-left p-4 font-medium text-xs uppercase tracking-wider" style={{ color: 'var(--text-muted)' }}>{t('actions')}</th>
+                <th className="text-left px-5 py-3.5 text-label" style={{ color: 'var(--text-muted)' }}>{t('type')}</th>
+                <th className="text-left px-5 py-3.5 text-label" style={{ color: 'var(--text-muted)' }}>{t('brand')}</th>
+                <th className="text-left px-5 py-3.5 text-label hidden md:table-cell" style={{ color: 'var(--text-muted)' }}>{t('assignedOperator')}</th>
+                <th className="text-left px-5 py-3.5 text-label hidden lg:table-cell" style={{ color: 'var(--text-muted)' }}>{t('comments')}</th>
+                <th className="text-left px-5 py-3.5 text-label" style={{ color: 'var(--text-muted)' }}>{t('actions')}</th>
               </tr>
             </thead>
             <tbody>
               {filtered.length === 0 ? (
-                <tr><td colSpan={5} className="text-center p-12" style={{ color: 'var(--text-muted)' }}>{t('noData')}</td></tr>
+                <tr><td colSpan={5} className="text-center py-16" style={{ color: 'var(--text-muted)' }}>{t('noData')}</td></tr>
               ) : (
                 filtered.map(item => (
                   <tr key={item.id} className="table-row">
-                    <td className="p-4">
+                    <td className="px-5 py-3.5">
                       <span className="badge" style={{
-                        backgroundColor: item.type === 'radio' ? 'rgba(53, 198, 200, 0.1)' : 'rgba(93, 169, 246, 0.1)',
-                        color: item.type === 'radio' ? '#35C6C8' : 'var(--accent)'
+                        backgroundColor: item.type === 'radio' ? 'rgba(6, 182, 212, 0.1)' : 'var(--accent-light)',
+                        color: item.type === 'radio' ? '#06B6D4' : 'var(--accent)'
                       }}>
                         {item.type === 'radio' ? <RadioIcon size={10} /> : <Monitor size={10} />}
                         {item.type === 'radio' ? t('radio') : t('computer')}
                       </span>
                     </td>
-                    <td className="p-4 font-medium" style={{ color: 'var(--text-primary)' }}>{item.brand}</td>
-                    <td className="p-4 hidden md:table-cell" style={{ color: 'var(--text-secondary)' }}>{item.assignedOperator}</td>
-                    <td className="p-4 hidden lg:table-cell text-xs max-w-[200px] truncate" style={{ color: 'var(--text-muted)' }}>{item.comments}</td>
-                    <td className="p-4">
-                      <div className="flex gap-1">
-                        <button onClick={() => handleEdit(item)} className="p-2 rounded-lg transition-colors" style={{ color: 'var(--accent)' }}><Edit2 size={14} /></button>
-                        <button onClick={() => handleDelete(item.id)} className="p-2 rounded-lg transition-colors" style={{ color: '#EF4444' }}><Trash2 size={14} /></button>
+                    <td className="px-5 py-3.5 font-medium" style={{ color: 'var(--text-primary)' }}>{item.brand}</td>
+                    <td className="px-5 py-3.5 hidden md:table-cell" style={{ color: 'var(--text-secondary)' }}>{item.assignedOperator}</td>
+                    <td className="px-5 py-3.5 hidden lg:table-cell text-caption max-w-[200px] truncate" style={{ color: 'var(--text-muted)' }}>{item.comments}</td>
+                    <td className="px-5 py-3.5">
+                      <div className="flex gap-0.5">
+                        <button onClick={() => handleEdit(item)} className="p-1.5 rounded-md hover:bg-blue-50 dark:hover:bg-blue-900/20" style={{ color: 'var(--accent)' }}><Edit2 size={14} /></button>
+                        <button onClick={() => handleDelete(item.id)} className="p-1.5 rounded-md hover:bg-red-50 dark:hover:bg-red-900/20" style={{ color: 'var(--danger)' }}><Trash2 size={14} /></button>
                       </div>
                     </td>
                   </tr>

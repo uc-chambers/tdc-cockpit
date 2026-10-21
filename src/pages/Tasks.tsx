@@ -129,11 +129,11 @@ export default function Tasks() {
       </div>
 
       {/* Pending Tasks */}
-      <div className="space-y-2">
+      <div className="space-y-2.5">
         {pendingTasks.length === 0 ? (
-          <div className="card p-12 text-center">
-            <CheckCircle2 size={40} className="mx-auto mb-3" style={{ color: '#35C6C8' }} />
-            <p className="font-medium" style={{ color: 'var(--text-secondary)' }}>{t('noPendingTasks')}</p>
+          <div className="card p-16 text-center">
+            <CheckCircle2 size={40} className="mx-auto mb-3" style={{ color: 'var(--success)' }} />
+            <p className="text-body font-medium" style={{ color: 'var(--text-secondary)' }}>{t('noPendingTasks')}</p>
           </div>
         ) : (
           pendingTasks.map(task => (
@@ -144,24 +144,24 @@ export default function Tasks() {
               <div className="flex items-start gap-3">
                 <button
                   onClick={() => handleComplete(task.id)}
-                  className="mt-0.5 p-1 rounded-lg transition-colors shrink-0"
+                  className="mt-0.5 p-1 rounded-md transition-colors shrink-0 hover:bg-blue-50 dark:hover:bg-blue-900/20"
                   style={{ color: 'var(--text-muted)' }}
                 >
                   <Circle size={20} />
                 </button>
 
                 <div className="flex-1 min-w-0">
-                  <div className="flex items-start justify-between gap-2 mb-2">
-                    <h3 className="font-medium" style={{ color: 'var(--text-primary)' }}>{task.title}</h3>
+                  <div className="flex items-start justify-between gap-2 mb-2.5">
+                    <h3 className="text-body font-medium" style={{ color: 'var(--text-primary)' }}>{task.title}</h3>
                     <button
                       onClick={() => handleDelete(task.id)}
-                      className="p-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-all"
-                      style={{ color: '#EF4444' }}
+                      className="p-1.5 rounded-md opacity-0 group-hover:opacity-100 transition-all hover:bg-red-50 dark:hover:bg-red-900/20"
+                      style={{ color: 'var(--danger)' }}
                     >
                       <Trash2 size={14} />
                     </button>
                   </div>
-                  <div className="flex items-center gap-3 flex-wrap">
+                  <div className="flex items-center gap-2 flex-wrap">
                     <span className="badge" style={{
                       backgroundColor: getPriorityColor(task.priority).bg,
                       color: getPriorityColor(task.priority).text
@@ -170,7 +170,7 @@ export default function Tasks() {
                       {t(task.priority as any)}
                     </span>
                     {task.dueDate && (
-                      <span className="inline-flex items-center gap-1 text-xs" style={{ color: 'var(--text-muted)' }}>
+                      <span className="inline-flex items-center gap-1 text-caption" style={{ color: 'var(--text-muted)' }}>
                         <Clock size={10} />
                         {new Date(task.dueDate).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}
                       </span>

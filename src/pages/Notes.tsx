@@ -91,42 +91,42 @@ export default function Notes() {
 
       {/* Notes Grid */}
       {notes.length === 0 ? (
-        <div className="card p-12 text-center">
+        <div className="card p-16 text-center">
           <StickyNote size={40} className="mx-auto mb-3" style={{ color: 'var(--text-muted)' }} />
-          <p style={{ color: 'var(--text-muted)' }}>{t('noData')}</p>
-          <p className="text-xs mt-1" style={{ color: 'var(--text-muted)' }}>Create your first note to get started</p>
+          <p className="text-body" style={{ color: 'var(--text-muted)' }}>{t('noData')}</p>
+          <p className="text-caption mt-1" style={{ color: 'var(--text-muted)' }}>Create your first note to get started</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {sortedNotes.map(note => (
             <div
               key={note.id}
-              className={`card card-interactive relative bg-gradient-to-br ${note.color} border rounded-2xl p-5`}
+              className={`card card-interactive relative bg-gradient-to-br ${note.color} p-5`}
             >
               {/* Pin indicator */}
               {note.pinned && (
-                <div className="absolute -top-2 -right-2 w-6 h-6 rounded-full flex items-center justify-center shadow-lg" style={{ backgroundColor: '#F58AB5' }}>
+                <div className="absolute -top-2 -right-2 w-6 h-6 rounded-full flex items-center justify-center shadow-sm" style={{ backgroundColor: '#EC4899' }}>
                   <Pin size={12} className="text-white" />
                 </div>
               )}
 
               {/* Actions */}
-              <div className="flex items-start justify-between mb-2">
-                <h3 className="font-semibold text-sm pr-6 flex-1" style={{ color: 'var(--text-primary)' }}>{note.title || 'Untitled'}</h3>
-                <div className="flex gap-1 shrink-0">
+              <div className="flex items-start justify-between mb-3">
+                <h3 className="text-body font-semibold pr-6 flex-1" style={{ color: 'var(--text-primary)' }}>{note.title || 'Untitled'}</h3>
+                <div className="flex gap-0.5 shrink-0">
                   <button
                     onClick={() => handlePin(note.id)}
-                    className="p-1.5 rounded-lg transition-all"
+                    className="p-1.5 rounded-md transition-all"
                     style={{
-                      backgroundColor: note.pinned ? 'rgba(245, 138, 181, 0.2)' : 'transparent',
-                      color: note.pinned ? '#F58AB5' : 'var(--text-muted)'
+                      backgroundColor: note.pinned ? 'rgba(236, 72, 153, 0.15)' : 'transparent',
+                      color: note.pinned ? '#EC4899' : 'var(--text-muted)'
                     }}
                   >
                     <Pin size={12} />
                   </button>
                   <button
                     onClick={() => handleDelete(note.id)}
-                    className="p-1.5 rounded-lg transition-all hover:bg-red-500/20"
+                    className="p-1.5 rounded-md transition-all hover:bg-red-500/20"
                     style={{ color: 'var(--text-muted)' }}
                   >
                     <Trash2 size={12} />
@@ -135,12 +135,12 @@ export default function Notes() {
               </div>
 
               {/* Content */}
-              <p className="text-sm whitespace-pre-wrap leading-relaxed" style={{ color: 'var(--text-secondary)' }}>{note.content}</p>
+              <p className="text-body whitespace-pre-wrap leading-relaxed" style={{ color: 'var(--text-secondary)' }}>{note.content}</p>
 
               {/* Footer */}
-              <div className="flex items-center gap-1 mt-3 pt-2 border-t" style={{ borderColor: 'rgba(0,0,0,0.1)' }}>
+              <div className="flex items-center gap-1.5 mt-4 pt-3 border-t" style={{ borderColor: 'rgba(0,0,0,0.08)' }}>
                 <Clock size={10} style={{ color: 'var(--text-muted)' }} />
-                <span className="text-xs" style={{ color: 'var(--text-muted)' }}>
+                <span className="text-caption" style={{ color: 'var(--text-muted)' }}>
                   {new Date(note.createdAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}
                 </span>
               </div>

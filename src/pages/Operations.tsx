@@ -131,33 +131,33 @@ export default function Operations() {
           </div>
         </div>
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-          <div className="rounded-xl p-4" style={{ backgroundColor: 'var(--bg-surface-secondary)' }}>
-            <div className="flex items-center gap-2 mb-1">
-              <Package size={14} style={{ color: '#A98CEB' }} />
-              <span className="text-xs" style={{ color: 'var(--text-muted)' }}>{t('totalPallets')}</span>
+          <div className="rounded-lg p-4" style={{ backgroundColor: 'var(--bg-surface-secondary)' }}>
+            <div className="flex items-center gap-2 mb-1.5">
+              <Package size={14} style={{ color: '#8B5CF6' }} />
+              <span className="text-caption" style={{ color: 'var(--text-muted)' }}>{t('totalPallets')}</span>
             </div>
             <p className="text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>{monthlyStats.totalPallets}</p>
           </div>
-          <div className="rounded-xl p-4" style={{ backgroundColor: 'var(--bg-surface-secondary)' }}>
-            <div className="flex items-center gap-2 mb-1">
-              <TrendingUp size={14} style={{ color: '#35C6C8' }} />
-              <span className="text-xs" style={{ color: 'var(--text-muted)' }}>{t('totalDelivered')}</span>
+          <div className="rounded-lg p-4" style={{ backgroundColor: 'var(--bg-surface-secondary)' }}>
+            <div className="flex items-center gap-2 mb-1.5">
+              <TrendingUp size={14} style={{ color: '#06B6D4' }} />
+              <span className="text-caption" style={{ color: 'var(--text-muted)' }}>{t('totalDelivered')}</span>
             </div>
-            <p className="text-2xl font-bold" style={{ color: '#35C6C8' }}>{monthlyStats.totalDelivered}</p>
+            <p className="text-2xl font-bold" style={{ color: '#06B6D4' }}>{monthlyStats.totalDelivered}</p>
           </div>
-          <div className="rounded-xl p-4" style={{ backgroundColor: 'var(--bg-surface-secondary)' }}>
-            <div className="flex items-center gap-2 mb-1">
+          <div className="rounded-lg p-4" style={{ backgroundColor: 'var(--bg-surface-secondary)' }}>
+            <div className="flex items-center gap-2 mb-1.5">
               <TrendingUp size={14} style={{ color: 'var(--accent)' }} />
-              <span className="text-xs" style={{ color: 'var(--text-muted)' }}>{t('totalReceived')}</span>
+              <span className="text-caption" style={{ color: 'var(--text-muted)' }}>{t('totalReceived')}</span>
             </div>
             <p className="text-2xl font-bold" style={{ color: 'var(--accent)' }}>{monthlyStats.totalReceived}</p>
           </div>
-          <div className="rounded-xl p-4" style={{ backgroundColor: 'var(--bg-surface-secondary)' }}>
-            <div className="flex items-center gap-2 mb-1">
-              <Truck size={14} style={{ color: '#F58AB5' }} />
-              <span className="text-xs" style={{ color: 'var(--text-muted)' }}>{t('truckOperations')}</span>
+          <div className="rounded-lg p-4" style={{ backgroundColor: 'var(--bg-surface-secondary)' }}>
+            <div className="flex items-center gap-2 mb-1.5">
+              <Truck size={14} style={{ color: '#EC4899' }} />
+              <span className="text-caption" style={{ color: 'var(--text-muted)' }}>{t('truckOperations')}</span>
             </div>
-            <p className="text-2xl font-bold" style={{ color: '#F58AB5' }}>{monthlyStats.totalTrucks}</p>
+            <p className="text-2xl font-bold" style={{ color: '#EC4899' }}>{monthlyStats.totalTrucks}</p>
           </div>
         </div>
       </div>
@@ -174,35 +174,35 @@ export default function Operations() {
               className="input-field" />
           </div>
           <div className="grid grid-cols-2 gap-3">
-            <div className="rounded-xl p-4" style={{ backgroundColor: 'var(--bg-surface-secondary)' }}>
-              <span className="text-xs" style={{ color: 'var(--text-muted)' }}>{t('totalPallets')}</span>
-              <p className="text-xl font-bold" style={{ color: 'var(--text-primary)' }}>{dailyStats.totalPallets}</p>
+            <div className="rounded-lg p-3.5" style={{ backgroundColor: 'var(--bg-surface-secondary)' }}>
+              <span className="text-caption" style={{ color: 'var(--text-muted)' }}>{t('totalPallets')}</span>
+              <p className="text-xl font-bold mt-0.5" style={{ color: 'var(--text-primary)' }}>{dailyStats.totalPallets}</p>
             </div>
-            <div className="rounded-xl p-4" style={{ backgroundColor: 'var(--bg-surface-secondary)' }}>
-              <span className="text-xs" style={{ color: 'var(--text-muted)' }}>{t('totalDelivered')}</span>
-              <p className="text-xl font-bold" style={{ color: '#35C6C8' }}>{dailyStats.totalDelivered}</p>
+            <div className="rounded-lg p-3.5" style={{ backgroundColor: 'var(--bg-surface-secondary)' }}>
+              <span className="text-caption" style={{ color: 'var(--text-muted)' }}>{t('totalDelivered')}</span>
+              <p className="text-xl font-bold mt-0.5" style={{ color: '#06B6D4' }}>{dailyStats.totalDelivered}</p>
             </div>
-            <div className="rounded-xl p-4" style={{ backgroundColor: 'var(--bg-surface-secondary)' }}>
-              <span className="text-xs" style={{ color: 'var(--text-muted)' }}>{t('totalReceived')}</span>
-              <p className="text-xl font-bold" style={{ color: 'var(--accent)' }}>{dailyStats.totalReceived}</p>
+            <div className="rounded-lg p-3.5" style={{ backgroundColor: 'var(--bg-surface-secondary)' }}>
+              <span className="text-caption" style={{ color: 'var(--text-muted)' }}>{t('totalReceived')}</span>
+              <p className="text-xl font-bold mt-0.5" style={{ color: 'var(--accent)' }}>{dailyStats.totalReceived}</p>
             </div>
-            <div className="rounded-xl p-4" style={{ backgroundColor: 'var(--bg-surface-secondary)' }}>
-              <span className="text-xs" style={{ color: 'var(--text-muted)' }}>{t('truckOperations')}</span>
-              <p className="text-xl font-bold" style={{ color: '#F58AB5' }}>{dailyStats.totalTrucks}</p>
+            <div className="rounded-lg p-3.5" style={{ backgroundColor: 'var(--bg-surface-secondary)' }}>
+              <span className="text-caption" style={{ color: 'var(--text-muted)' }}>{t('truckOperations')}</span>
+              <p className="text-xl font-bold mt-0.5" style={{ color: '#EC4899' }}>{dailyStats.totalTrucks}</p>
             </div>
           </div>
           <div className="mt-4 space-y-1.5 max-h-40 overflow-y-auto">
             {dailyOps.length === 0 ? (
-              <p className="text-xs text-center py-4" style={{ color: 'var(--text-muted)' }}>{t('noData')}</p>
+              <p className="text-caption text-center py-6" style={{ color: 'var(--text-muted)' }}>{t('noData')}</p>
             ) : (
               dailyOps.map(op => (
-                <div key={op.id} className="flex items-center justify-between py-2 px-3 rounded-lg text-xs" style={{ backgroundColor: 'var(--bg-surface-secondary)' }}>
+                <div key={op.id} className="flex items-center justify-between py-2 px-3 rounded-md text-caption" style={{ backgroundColor: 'var(--bg-surface-secondary)' }}>
                   <span className="font-medium truncate mr-2" style={{ color: 'var(--text-primary)' }}>{op.customer}</span>
                   <div className="flex items-center gap-2 shrink-0">
-                    <span style={{ color: 'var(--text-secondary)' }}>{op.palletQty} plts</span>
+                    <span style={{ color: 'var(--text-secondary)' }}>{op.palletQty}</span>
                     <span className="badge" style={{
-                      backgroundColor: op.deliveryType === 'delivered' ? 'rgba(53, 198, 200, 0.1)' : 'rgba(93, 169, 246, 0.1)',
-                      color: op.deliveryType === 'delivered' ? '#35C6C8' : 'var(--accent)'
+                      backgroundColor: op.deliveryType === 'delivered' ? 'rgba(6, 182, 212, 0.1)' : 'var(--accent-light)',
+                      color: op.deliveryType === 'delivered' ? '#06B6D4' : 'var(--accent)'
                     }}>
                       {op.deliveryType === 'delivered' ? t('delivered') : t('received')}
                     </span>
@@ -219,35 +219,35 @@ export default function Operations() {
             {t('previousDay')} - {previousDay}
           </h3>
           <div className="grid grid-cols-2 gap-3">
-            <div className="rounded-xl p-4" style={{ backgroundColor: 'var(--bg-surface-secondary)' }}>
-              <span className="text-xs" style={{ color: 'var(--text-muted)' }}>{t('totalPallets')}</span>
-              <p className="text-xl font-bold" style={{ color: 'var(--text-primary)' }}>{previousDayOps.reduce((s, o) => s + o.palletQty, 0)}</p>
+            <div className="rounded-lg p-3.5" style={{ backgroundColor: 'var(--bg-surface-secondary)' }}>
+              <span className="text-caption" style={{ color: 'var(--text-muted)' }}>{t('totalPallets')}</span>
+              <p className="text-xl font-bold mt-0.5" style={{ color: 'var(--text-primary)' }}>{previousDayOps.reduce((s, o) => s + o.palletQty, 0)}</p>
             </div>
-            <div className="rounded-xl p-4" style={{ backgroundColor: 'var(--bg-surface-secondary)' }}>
-              <span className="text-xs" style={{ color: 'var(--text-muted)' }}>{t('totalDelivered')}</span>
-              <p className="text-xl font-bold" style={{ color: '#35C6C8' }}>{previousDayOps.filter(o => o.deliveryType === 'delivered').reduce((s, o) => s + o.palletQty, 0)}</p>
+            <div className="rounded-lg p-3.5" style={{ backgroundColor: 'var(--bg-surface-secondary)' }}>
+              <span className="text-caption" style={{ color: 'var(--text-muted)' }}>{t('totalDelivered')}</span>
+              <p className="text-xl font-bold mt-0.5" style={{ color: '#06B6D4' }}>{previousDayOps.filter(o => o.deliveryType === 'delivered').reduce((s, o) => s + o.palletQty, 0)}</p>
             </div>
-            <div className="rounded-xl p-4" style={{ backgroundColor: 'var(--bg-surface-secondary)' }}>
-              <span className="text-xs" style={{ color: 'var(--text-muted)' }}>{t('totalReceived')}</span>
-              <p className="text-xl font-bold" style={{ color: 'var(--accent)' }}>{previousDayOps.filter(o => o.deliveryType === 'received').reduce((s, o) => s + o.palletQty, 0)}</p>
+            <div className="rounded-lg p-3.5" style={{ backgroundColor: 'var(--bg-surface-secondary)' }}>
+              <span className="text-caption" style={{ color: 'var(--text-muted)' }}>{t('totalReceived')}</span>
+              <p className="text-xl font-bold mt-0.5" style={{ color: 'var(--accent)' }}>{previousDayOps.filter(o => o.deliveryType === 'received').reduce((s, o) => s + o.palletQty, 0)}</p>
             </div>
-            <div className="rounded-xl p-4" style={{ backgroundColor: 'var(--bg-surface-secondary)' }}>
-              <span className="text-xs" style={{ color: 'var(--text-muted)' }}>{t('truckOperations')}</span>
-              <p className="text-xl font-bold" style={{ color: '#F58AB5' }}>{previousDayOps.reduce((s, o) => s + o.truckOperations, 0)}</p>
+            <div className="rounded-lg p-3.5" style={{ backgroundColor: 'var(--bg-surface-secondary)' }}>
+              <span className="text-caption" style={{ color: 'var(--text-muted)' }}>{t('truckOperations')}</span>
+              <p className="text-xl font-bold mt-0.5" style={{ color: '#EC4899' }}>{previousDayOps.reduce((s, o) => s + o.truckOperations, 0)}</p>
             </div>
           </div>
           <div className="mt-4 space-y-1.5 max-h-40 overflow-y-auto">
             {previousDayOps.length === 0 ? (
-              <p className="text-xs text-center py-4" style={{ color: 'var(--text-muted)' }}>{t('noData')}</p>
+              <p className="text-caption text-center py-6" style={{ color: 'var(--text-muted)' }}>{t('noData')}</p>
             ) : (
               previousDayOps.map(op => (
-                <div key={op.id} className="flex items-center justify-between py-2 px-3 rounded-lg text-xs" style={{ backgroundColor: 'var(--bg-surface-secondary)' }}>
+                <div key={op.id} className="flex items-center justify-between py-2 px-3 rounded-md text-caption" style={{ backgroundColor: 'var(--bg-surface-secondary)' }}>
                   <span className="font-medium truncate mr-2" style={{ color: 'var(--text-primary)' }}>{op.customer}</span>
                   <div className="flex items-center gap-2 shrink-0">
-                    <span style={{ color: 'var(--text-secondary)' }}>{op.palletQty} plts</span>
+                    <span style={{ color: 'var(--text-secondary)' }}>{op.palletQty}</span>
                     <span className="badge" style={{
-                      backgroundColor: op.deliveryType === 'delivered' ? 'rgba(53, 198, 200, 0.1)' : 'rgba(93, 169, 246, 0.1)',
-                      color: op.deliveryType === 'delivered' ? '#35C6C8' : 'var(--accent)'
+                      backgroundColor: op.deliveryType === 'delivered' ? 'rgba(6, 182, 212, 0.1)' : 'var(--accent-light)',
+                      color: op.deliveryType === 'delivered' ? '#06B6D4' : 'var(--accent)'
                     }}>
                       {op.deliveryType === 'delivered' ? t('delivered') : t('received')}
                     </span>
@@ -275,40 +275,40 @@ export default function Operations() {
           <table className="w-full text-sm">
             <thead>
               <tr className="table-header">
-                <th className="text-left p-4 font-medium text-xs uppercase tracking-wider" style={{ color: 'var(--text-muted)' }}>{t('date')}</th>
-                <th className="text-left p-4 font-medium text-xs uppercase tracking-wider" style={{ color: 'var(--text-muted)' }}>{t('customer')}</th>
-                <th className="text-left p-4 font-medium text-xs uppercase tracking-wider hidden md:table-cell" style={{ color: 'var(--text-muted)' }}>{t('truckOperations')}</th>
-                <th className="text-left p-4 font-medium text-xs uppercase tracking-wider" style={{ color: 'var(--text-muted)' }}>{t('palletQty')}</th>
-                <th className="text-left p-4 font-medium text-xs uppercase tracking-wider hidden sm:table-cell" style={{ color: 'var(--text-muted)' }}>{t('deliveryType')}</th>
-                <th className="text-left p-4 font-medium text-xs uppercase tracking-wider hidden lg:table-cell" style={{ color: 'var(--text-muted)' }}>{t('responsible')}</th>
-                <th className="text-left p-4 font-medium text-xs uppercase tracking-wider hidden lg:table-cell" style={{ color: 'var(--text-muted)' }}>{t('forkliftDriver')}</th>
-                <th className="text-left p-4 font-medium text-xs uppercase tracking-wider" style={{ color: 'var(--text-muted)' }}>{t('actions')}</th>
+                <th className="text-left px-5 py-3.5 text-label" style={{ color: 'var(--text-muted)' }}>{t('date')}</th>
+                <th className="text-left px-5 py-3.5 text-label" style={{ color: 'var(--text-muted)' }}>{t('customer')}</th>
+                <th className="text-left px-5 py-3.5 text-label hidden md:table-cell" style={{ color: 'var(--text-muted)' }}>{t('truckOperations')}</th>
+                <th className="text-left px-5 py-3.5 text-label" style={{ color: 'var(--text-muted)' }}>{t('palletQty')}</th>
+                <th className="text-left px-5 py-3.5 text-label hidden sm:table-cell" style={{ color: 'var(--text-muted)' }}>{t('deliveryType')}</th>
+                <th className="text-left px-5 py-3.5 text-label hidden lg:table-cell" style={{ color: 'var(--text-muted)' }}>{t('responsible')}</th>
+                <th className="text-left px-5 py-3.5 text-label hidden lg:table-cell" style={{ color: 'var(--text-muted)' }}>{t('forkliftDriver')}</th>
+                <th className="text-left px-5 py-3.5 text-label" style={{ color: 'var(--text-muted)' }}>{t('actions')}</th>
               </tr>
             </thead>
             <tbody>
               {filtered.length === 0 ? (
-                <tr><td colSpan={8} className="text-center p-12" style={{ color: 'var(--text-muted)' }}>{t('noData')}</td></tr>
+                <tr><td colSpan={8} className="text-center py-16" style={{ color: 'var(--text-muted)' }}>{t('noData')}</td></tr>
               ) : (
                 filtered.sort((a, b) => b.date.localeCompare(a.date)).map(op => (
                   <tr key={op.id} className="table-row">
-                    <td className="p-4 text-xs" style={{ color: 'var(--text-secondary)' }}>{op.date}</td>
-                    <td className="p-4 font-medium" style={{ color: 'var(--text-primary)' }}>{op.customer}</td>
-                    <td className="p-4 hidden md:table-cell" style={{ color: 'var(--text-secondary)' }}>{op.truckOperations}</td>
-                    <td className="p-4 font-semibold" style={{ color: 'var(--text-primary)' }}>{op.palletQty}</td>
-                    <td className="p-4 hidden sm:table-cell">
+                    <td className="px-5 py-3.5 text-caption" style={{ color: 'var(--text-secondary)' }}>{op.date}</td>
+                    <td className="px-5 py-3.5 font-medium" style={{ color: 'var(--text-primary)' }}>{op.customer}</td>
+                    <td className="px-5 py-3.5 hidden md:table-cell" style={{ color: 'var(--text-secondary)' }}>{op.truckOperations}</td>
+                    <td className="px-5 py-3.5 font-semibold" style={{ color: 'var(--text-primary)' }}>{op.palletQty}</td>
+                    <td className="px-5 py-3.5 hidden sm:table-cell">
                       <span className="badge" style={{
-                        backgroundColor: op.deliveryType === 'delivered' ? 'rgba(53, 198, 200, 0.1)' : 'rgba(93, 169, 246, 0.1)',
-                        color: op.deliveryType === 'delivered' ? '#35C6C8' : 'var(--accent)'
+                        backgroundColor: op.deliveryType === 'delivered' ? 'rgba(6, 182, 212, 0.1)' : 'var(--accent-light)',
+                        color: op.deliveryType === 'delivered' ? '#06B6D4' : 'var(--accent)'
                       }}>
                         {op.deliveryType === 'delivered' ? t('delivered') : t('received')}
                       </span>
                     </td>
-                    <td className="p-4 hidden lg:table-cell" style={{ color: 'var(--text-secondary)' }}>{op.responsible}</td>
-                    <td className="p-4 hidden lg:table-cell" style={{ color: 'var(--text-secondary)' }}>{op.forkliftDriver}</td>
-                    <td className="p-4">
-                      <div className="flex gap-1">
-                        <button onClick={() => handleEdit(op)} className="p-2 rounded-lg transition-colors" style={{ color: 'var(--accent)' }}><Edit2 size={14} /></button>
-                        <button onClick={() => handleDelete(op.id)} className="p-2 rounded-lg transition-colors" style={{ color: '#EF4444' }}><Trash2 size={14} /></button>
+                    <td className="px-5 py-3.5 hidden lg:table-cell" style={{ color: 'var(--text-secondary)' }}>{op.responsible}</td>
+                    <td className="px-5 py-3.5 hidden lg:table-cell" style={{ color: 'var(--text-secondary)' }}>{op.forkliftDriver}</td>
+                    <td className="px-5 py-3.5">
+                      <div className="flex gap-0.5">
+                        <button onClick={() => handleEdit(op)} className="p-1.5 rounded-md hover:bg-blue-50 dark:hover:bg-blue-900/20" style={{ color: 'var(--accent)' }}><Edit2 size={14} /></button>
+                        <button onClick={() => handleDelete(op.id)} className="p-1.5 rounded-md hover:bg-red-50 dark:hover:bg-red-900/20" style={{ color: 'var(--danger)' }}><Trash2 size={14} /></button>
                       </div>
                     </td>
                   </tr>
