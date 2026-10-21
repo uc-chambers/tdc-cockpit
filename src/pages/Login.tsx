@@ -41,27 +41,15 @@ export default function Login() {
       {/* Theme toggle */}
       <button
         onClick={toggleTheme}
-        className="absolute top-4 right-4 p-2.5 rounded-lg z-10"
-        style={{ 
-          backgroundColor: 'var(--bg-surface)',
-          color: 'var(--text-secondary)',
-          border: '1px solid var(--border-color)',
-          boxShadow: 'var(--shadow-sm)'
-        }}
+        className="card absolute top-4 right-4 p-2.5 rounded-lg z-10"
+        style={{ color: 'var(--text-secondary)' }}
       >
         {theme === 'light' ? <Moon size={18} /> : <Sun size={18} />}
       </button>
 
       <div className="relative w-full max-w-sm">
         {/* Card */}
-        <div 
-          className="rounded-2xl p-8"
-          style={{ 
-            backgroundColor: 'var(--bg-surface)',
-            border: '1px solid var(--border-color)',
-            boxShadow: 'var(--shadow-lg)'
-          }}
-        >
+        <div className="card rounded-2xl p-8">
           {/* Logo */}
           <div className="flex flex-col items-center mb-8">
             <div className="w-14 h-14 rounded-xl gradient-blue flex items-center justify-center mb-5 shadow-md">
@@ -119,7 +107,7 @@ export default function Login() {
           </form>
 
           {/* Footer */}
-          <div className="mt-6 pt-5 border-t text-center" style={{ borderColor: 'var(--border-subtle)' }}>
+          <div className="mt-6 pt-5 border-t text-center" style={{ borderColor: 'var(--border-color)' }}>
             <p className="text-caption" style={{ color: 'var(--text-muted)' }}>
               Troup Distribution Center
             </p>
@@ -129,6 +117,11 @@ export default function Login() {
         {/* Bottom text */}
         <p className="text-center text-xs mt-6" style={{ color: 'var(--text-muted)' }}>
           Secure Access • Authorized Personnel Only
+        </p>
+
+        {/* Creator credit */}
+        <p className="text-center text-xs mt-4" style={{ color: 'var(--text-muted)' }}>
+          Designed & Created by <span className="font-semibold" style={{ color: 'var(--accent)' }}>Uriel Ceballos</span>
         </p>
       </div>
     </div>

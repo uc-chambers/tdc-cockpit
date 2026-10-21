@@ -115,13 +115,7 @@ export default function Layout({ children, currentPage, onNavigate }: LayoutProp
       {/* Main content */}
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* Top bar */}
-        <header 
-          className="h-14 flex items-center justify-between px-4 lg:px-6 shrink-0 border-b"
-          style={{ 
-            backgroundColor: 'var(--bg-surface)',
-            borderColor: 'var(--border-color)'
-          }}
-        >
+        <header className="glass-header h-14 flex items-center justify-between px-4 lg:px-6 shrink-0">
           <button
             onClick={() => setSidebarOpen(true)}
             className="lg:hidden p-2 rounded-lg"
@@ -145,6 +139,13 @@ export default function Layout({ children, currentPage, onNavigate }: LayoutProp
         <main className="flex-1 overflow-y-auto p-4 lg:p-6">
           {children}
         </main>
+
+        {/* Footer */}
+        <footer className="glass-footer px-4 lg:px-6 py-3 shrink-0">
+          <p className="text-caption text-center" style={{ color: 'var(--text-muted)' }}>
+            Designed & Created by <span className="font-semibold" style={{ color: 'var(--accent)' }}>Uriel Ceballos</span>
+          </p>
+        </footer>
       </div>
     </div>
   );
