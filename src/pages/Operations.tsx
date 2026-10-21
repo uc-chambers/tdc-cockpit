@@ -1,8 +1,9 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useRef } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import { useData, Operation } from '../context/DataContext';
-import { Plus, Search, Edit2, Trash2, X, Calendar, TrendingUp, Package, Truck } from 'lucide-react';
+import { Plus, Search, Edit2, Trash2, X, Calendar, TrendingUp, Package, Truck, Upload, FileSpreadsheet, AlertCircle } from 'lucide-react';
 import { v4 as uuidv4 } from 'uuid';
+import * as XLSX from 'xlsx';
 
 export default function Operations() {
   const { t, language } = useLanguage();
@@ -25,6 +26,14 @@ export default function Operations() {
     responsible: '',
     forkliftDriver: ''
   });
+
+  // Import Excel states
+  const [showImport, setShowImport] = useState(false);
+  const [importData, setImportData] = useState<Omit<Operation, 'id'>[]>([]);
+  const [importFileName, setImportFileName] = useState('');
+  const [importPassword, setImportPassword] = useState('');
+  const [importError, setImportError] = useState('');
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const months = [
     t('january'), t('february'), t('march'), t('april'), t('may'), t('june'),
@@ -102,6 +111,109 @@ export default function Operations() {
     setForm({ date: now.toISOString().split('T')[0], customer: '', truckOperations: 0, palletQty: 0, deliveryType: 'delivered', responsible: '', forkliftDriver: '' });
     setEditingId(null);
     setShowForm(false);
+  };
+
+  // Excel Import functions
+  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setImportFileName(file.name);
+    setImportError('');
+    setImportPassword('');
+
+    const reader = new FileReader();
+    reader.onload = (evt) => {
+      try {
+        const bstr = evt.target?.result;
+        const wb = XLSX.read(bstr, { type: 'binary' });
+        const wsname = wb.SheetNames[0];
+        const ws = wb.Sheets[wsname];
+        const data = XLSX.utils.sheet_to_json(ws);
+
+        const parsed: Omit<Operation, 'id'>[] = data.map((row: any) => {
+          // Try to map common column names
+          const dateVal = row.date || row.Date || row.fecha || row.Fecha || '';
+          const customer = row.customer || row.Customer || row.cliente || row.Cliente || '';
+          const truckOps = parseInt(row.truckOperations || row['Truck Operations'] || row.operaciones || row['Operaciones de camion'] || 0) || 0;
+          const palletQty = parseInt(row.palletQty || row['Pallet Qty'] || row.tarimas || row['Cantidad de tarimas'] || 0) || 0;
+          const deliveryType = (row.deliveryType || row['Delivery Type'] || row.tipo || '').toLowerCase();
+          const responsible = row.responsible || row.Responsible || row.responsable || row.Responsable || '';
+          const forkliftDriver = row.forkliftDriver || row['Forklift Driver'] || row.operador || row.Operador || '';
+
+          // Normalize delivery type
+          let normalizedDelivery: 'delivered' | 'received' = 'delivered';
+          if (deliveryType.includes('received') || deliveryType.includes('recibido')) {
+            normalizedDelivery = 'received';
+          }
+
+          // Normalize date
+          let normalizedDate = '';
+          if (dateVal) {
+            if (typeof dateVal === 'number') {
+              // Excel serial date
+              const date = XLSX.SSF.parse_date_code(dateVal);
+              if (date) {
+                normalizedDate = `${date.y}-${String(date.m).padStart(2, '0')}-${String(date.d).padStart(2, '0')}`;
+              }
+            } else {
+              normalizedDate = String(dateVal);
+              // Try to parse common date formats
+              const d = new Date(dateVal);
+              if (!isNaN(d.getTime())) {
+                normalizedDate = d.toISOString().split('T')[0];
+              }
+            }
+          }
+
+          return {
+            date: normalizedDate,
+            customer: String(customer),
+            truckOperations: truckOps,
+            palletQty: palletQty,
+            deliveryType: normalizedDelivery,
+            responsible: String(responsible),
+            forkliftDriver: String(forkliftDriver)
+          };
+        }).filter(row => row.customer && row.date);
+
+        setImportData(parsed);
+      } catch (err) {
+        setImportError('Error reading file. Please check the format.');
+        setImportData([]);
+      }
+    };
+    reader.readAsBinaryString(file);
+  };
+
+  const handleImport = () => {
+    if (importPassword !== 'tdc2026@') {
+      setImportError('Incorrect password. Import cancelled.');
+      return;
+    }
+    if (importData.length === 0) {
+      setImportError('No valid data to import.');
+      return;
+    }
+
+    const newOps: Operation[] = importData.map(row => ({
+      ...row,
+      id: uuidv4()
+    }));
+
+    setOperations([...operations, ...newOps]);
+    resetImport();
+  };
+
+  const resetImport = () => {
+    setShowImport(false);
+    setImportData([]);
+    setImportFileName('');
+    setImportPassword('');
+    setImportError('');
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
   };
 
   const years = Array.from({ length: 5 }, (_, i) => now.getFullYear() - 2 + i);
@@ -267,9 +379,14 @@ export default function Operations() {
             <input type="text" placeholder={t('search')} value={search} onChange={e => setSearch(e.target.value)}
               className="input-field w-full pl-9 pr-4" />
           </div>
-          <button onClick={() => setShowForm(true)} className="btn-primary flex items-center gap-2">
-            <Plus size={16} /> {t('addOperation')}
-          </button>
+          <div className="flex gap-2">
+            <button onClick={() => setShowImport(true)} className="btn-secondary flex items-center gap-2">
+              <Upload size={16} /> Import Excel
+            </button>
+            <button onClick={() => setShowForm(true)} className="btn-primary flex items-center gap-2">
+              <Plus size={16} /> {t('addOperation')}
+            </button>
+          </div>
         </div>
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
@@ -368,6 +485,124 @@ export default function Operations() {
             <div className="flex gap-2 p-5 border-t" style={{ borderColor: 'var(--border-color)' }}>
               <button onClick={resetForm} className="btn-secondary flex-1">{t('cancel')}</button>
               <button onClick={handleSave} className="btn-primary flex-1">{t('save')}</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Import Excel Modal */}
+      {showImport && (
+        <div className="fixed inset-0 modal-overlay z-50 flex items-center justify-center p-4">
+          <div className="modal-content w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+            <div className="flex items-center justify-between p-5 border-b" style={{ borderColor: 'var(--border-color)' }}>
+              <h3 className="font-semibold flex items-center gap-2" style={{ color: 'var(--text-primary)' }}>
+                <FileSpreadsheet size={18} style={{ color: 'var(--accent)' }} />
+                Import Operations from Excel
+              </h3>
+              <button onClick={resetImport} className="p-1.5 rounded-lg transition-colors" style={{ color: 'var(--text-secondary)' }}><X size={18} /></button>
+            </div>
+            
+            <div className="p-5 space-y-4">
+              {/* File Upload */}
+              <div>
+                <label className="text-xs mb-1.5 block" style={{ color: 'var(--text-secondary)' }}>Select Excel File</label>
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept=".xlsx,.xls,.csv"
+                  onChange={handleFileSelect}
+                  className="input-field w-full"
+                />
+                {importFileName && (
+                  <p className="text-xs mt-1" style={{ color: 'var(--text-muted)' }}>
+                    File: {importFileName}
+                  </p>
+                )}
+              </div>
+
+              {/* Preview Data */}
+              {importData.length > 0 && (
+                <div>
+                  <label className="text-xs mb-2 block" style={{ color: 'var(--text-secondary)' }}>
+                    Preview ({importData.length} records found)
+                  </label>
+                  <div className="border rounded-lg overflow-hidden max-h-48 overflow-y-auto" style={{ borderColor: 'var(--border-color)' }}>
+                    <table className="w-full text-xs">
+                      <thead>
+                        <tr style={{ backgroundColor: 'var(--bg-surface-secondary)' }}>
+                          <th className="text-left px-3 py-2 font-medium" style={{ color: 'var(--text-muted)' }}>Date</th>
+                          <th className="text-left px-3 py-2 font-medium" style={{ color: 'var(--text-muted)' }}>Customer</th>
+                          <th className="text-left px-3 py-2 font-medium" style={{ color: 'var(--text-muted)' }}>Pallets</th>
+                          <th className="text-left px-3 py-2 font-medium" style={{ color: 'var(--text-muted)' }}>Type</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {importData.slice(0, 10).map((row, idx) => (
+                          <tr key={idx} style={{ borderTop: '1px solid var(--border-color)' }}>
+                            <td className="px-3 py-2" style={{ color: 'var(--text-primary)' }}>{row.date}</td>
+                            <td className="px-3 py-2" style={{ color: 'var(--text-primary)' }}>{row.customer}</td>
+                            <td className="px-3 py-2" style={{ color: 'var(--text-primary)' }}>{row.palletQty}</td>
+                            <td className="px-3 py-2">
+                              <span className="badge" style={{
+                                backgroundColor: row.deliveryType === 'delivered' ? 'rgba(6, 182, 212, 0.1)' : 'var(--accent-light)',
+                                color: row.deliveryType === 'delivered' ? '#06B6D4' : 'var(--accent)'
+                              }}>
+                                {row.deliveryType === 'delivered' ? t('delivered') : t('received')}
+                              </span>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                    {importData.length > 10 && (
+                      <p className="text-xs text-center py-2" style={{ color: 'var(--text-muted)' }}>
+                        + {importData.length - 10} more records
+                      </p>
+                    )}
+                  </div>
+                </div>
+              )}
+
+              {/* Password Confirmation */}
+              {importData.length > 0 && (
+                <div>
+                  <label className="text-xs mb-1.5 block" style={{ color: 'var(--text-secondary)' }}>
+                    Enter password to confirm import *
+                  </label>
+                  <input
+                    type="password"
+                    value={importPassword}
+                    onChange={e => { setImportPassword(e.target.value); setImportError(''); }}
+                    placeholder="Password required"
+                    className="input-field w-full"
+                  />
+                </div>
+              )}
+
+              {/* Error Message */}
+              {importError && (
+                <div className="flex items-center gap-2 p-3 rounded-lg" style={{ backgroundColor: 'rgba(239, 68, 68, 0.1)' }}>
+                  <AlertCircle size={16} style={{ color: 'var(--danger)' }} />
+                  <span className="text-xs" style={{ color: 'var(--danger)' }}>{importError}</span>
+                </div>
+              )}
+
+              {/* Instructions */}
+              <div className="p-3 rounded-lg text-xs" style={{ backgroundColor: 'var(--bg-surface-secondary)', color: 'var(--text-muted)' }}>
+                <p className="font-medium mb-1" style={{ color: 'var(--text-secondary)' }}>Expected Excel columns:</p>
+                <p>date, customer, truckOperations, palletQty, deliveryType (delivered/received), responsible, forkliftDriver</p>
+              </div>
+            </div>
+
+            <div className="flex gap-2 p-5 border-t" style={{ borderColor: 'var(--border-color)' }}>
+              <button onClick={resetImport} className="btn-secondary flex-1">{t('cancel')}</button>
+              <button 
+                onClick={handleImport} 
+                disabled={importData.length === 0 || !importPassword}
+                className="btn-primary flex-1 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                Confirm Import ({importData.length} records)
+              </button>
             </div>
           </div>
         </div>
