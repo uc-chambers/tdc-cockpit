@@ -55,32 +55,32 @@ export default function Equipment() {
   return (
     <div className="space-y-4">
       {/* Stats */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-        <div className="bg-gray-800 border border-gray-700 rounded-xl p-4 flex items-center gap-3">
-          <div className="w-10 h-10 rounded-lg bg-green-500/20 flex items-center justify-center">
-            <RadioIcon size={20} className="text-green-400" />
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div className="card card-interactive p-5 flex items-center gap-4">
+          <div className="w-12 h-12 rounded-xl flex items-center justify-center" style={{ backgroundColor: 'rgba(53, 198, 200, 0.1)' }}>
+            <RadioIcon size={22} style={{ color: '#35C6C8' }} />
           </div>
           <div>
-            <p className="text-2xl font-bold">{radioCount}</p>
-            <p className="text-xs text-gray-400">{t('radio')}</p>
+            <p className="text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>{radioCount}</p>
+            <p className="text-xs" style={{ color: 'var(--text-muted)' }}>{t('radio')}</p>
           </div>
         </div>
-        <div className="bg-gray-800 border border-gray-700 rounded-xl p-4 flex items-center gap-3">
-          <div className="w-10 h-10 rounded-lg bg-blue-500/20 flex items-center justify-center">
-            <Monitor size={20} className="text-blue-400" />
+        <div className="card card-interactive p-5 flex items-center gap-4">
+          <div className="w-12 h-12 rounded-xl flex items-center justify-center" style={{ backgroundColor: 'rgba(93, 169, 246, 0.1)' }}>
+            <Monitor size={22} style={{ color: 'var(--accent)' }} />
           </div>
           <div>
-            <p className="text-2xl font-bold">{computerCount}</p>
-            <p className="text-xs text-gray-400">{t('computer')}</p>
+            <p className="text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>{computerCount}</p>
+            <p className="text-xs" style={{ color: 'var(--text-muted)' }}>{t('computer')}</p>
           </div>
         </div>
-        <div className="bg-gray-800 border border-gray-700 rounded-xl p-4 flex items-center gap-3">
-          <div className="w-10 h-10 rounded-lg bg-purple-500/20 flex items-center justify-center text-purple-400 font-bold">
-            {equipment.length}
+        <div className="card card-interactive p-5 flex items-center gap-4">
+          <div className="w-12 h-12 rounded-xl flex items-center justify-center" style={{ backgroundColor: 'rgba(169, 140, 235, 0.1)' }}>
+            <span className="text-lg font-bold" style={{ color: '#A98CEB' }}>{equipment.length}</span>
           </div>
           <div>
-            <p className="text-2xl font-bold">{equipment.length}</p>
-            <p className="text-xs text-gray-400">{t('total')}</p>
+            <p className="text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>{equipment.length}</p>
+            <p className="text-xs" style={{ color: 'var(--text-muted)' }}>{t('total')}</p>
           </div>
         </div>
       </div>
@@ -89,71 +89,69 @@ export default function Equipment() {
       <div className="flex flex-col sm:flex-row gap-3 items-start sm:items-center justify-between">
         <div className="flex gap-2 flex-wrap">
           <div className="relative flex-1 sm:flex-none sm:w-64">
-            <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-            <input
-              type="text"
-              placeholder={t('search')}
-              value={search}
-              onChange={e => setSearch(e.target.value)}
-              className="w-full pl-9 pr-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-sm focus:outline-none focus:border-blue-500"
-            />
+            <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2" style={{ color: 'var(--text-muted)' }} />
+            <input type="text" placeholder={t('search')} value={search} onChange={e => setSearch(e.target.value)}
+              className="input-field w-full pl-9 pr-4" />
           </div>
-          <div className="flex gap-1 bg-gray-800 border border-gray-700 rounded-lg p-1">
+          <div className="flex gap-1 p-1 rounded-lg" style={{ backgroundColor: 'var(--bg-surface-secondary)', border: '1px solid var(--border-color)' }}>
             {(['all', 'radio', 'computer'] as const).map(type => (
               <button
                 key={type}
                 onClick={() => setTypeFilter(type)}
-                className={`px-3 py-1 rounded text-xs font-medium transition-colors ${
-                  typeFilter === type ? 'bg-blue-600 text-white' : 'text-gray-400 hover:text-white'
+                className={`px-3 py-1.5 rounded-md text-xs font-medium transition-all ${
+                  typeFilter === type ? 'shadow-sm' : ''
                 }`}
+                style={{
+                  backgroundColor: typeFilter === type ? 'var(--bg-surface)' : 'transparent',
+                  color: typeFilter === type ? 'var(--accent)' : 'var(--text-muted)',
+                  border: typeFilter === type ? '1px solid var(--border-color)' : '1px solid transparent'
+                }}
               >
                 {type === 'all' ? t('total') : type === 'radio' ? t('radio') : t('computer')}
               </button>
             ))}
           </div>
         </div>
-        <button
-          onClick={() => setShowForm(true)}
-          className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg text-sm font-medium transition-colors"
-        >
+        <button onClick={() => setShowForm(true)} className="btn-primary flex items-center gap-2">
           <Plus size={16} /> {t('addEquipment')}
         </button>
       </div>
 
       {/* Table */}
-      <div className="bg-gray-800 border border-gray-700 rounded-xl overflow-hidden">
+      <div className="table-container">
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-gray-700 bg-gray-800/50">
-                <th className="text-left p-3 font-medium text-gray-400">{t('type')}</th>
-                <th className="text-left p-3 font-medium text-gray-400">{t('brand')}</th>
-                <th className="text-left p-3 font-medium text-gray-400 hidden md:table-cell">{t('assignedOperator')}</th>
-                <th className="text-left p-3 font-medium text-gray-400 hidden lg:table-cell">{t('comments')}</th>
-                <th className="text-left p-3 font-medium text-gray-400">{t('actions')}</th>
+              <tr className="table-header">
+                <th className="text-left p-4 font-medium text-xs uppercase tracking-wider" style={{ color: 'var(--text-muted)' }}>{t('type')}</th>
+                <th className="text-left p-4 font-medium text-xs uppercase tracking-wider" style={{ color: 'var(--text-muted)' }}>{t('brand')}</th>
+                <th className="text-left p-4 font-medium text-xs uppercase tracking-wider hidden md:table-cell" style={{ color: 'var(--text-muted)' }}>{t('assignedOperator')}</th>
+                <th className="text-left p-4 font-medium text-xs uppercase tracking-wider hidden lg:table-cell" style={{ color: 'var(--text-muted)' }}>{t('comments')}</th>
+                <th className="text-left p-4 font-medium text-xs uppercase tracking-wider" style={{ color: 'var(--text-muted)' }}>{t('actions')}</th>
               </tr>
             </thead>
             <tbody>
               {filtered.length === 0 ? (
-                <tr><td colSpan={5} className="text-center p-8 text-gray-500">{t('noData')}</td></tr>
+                <tr><td colSpan={5} className="text-center p-12" style={{ color: 'var(--text-muted)' }}>{t('noData')}</td></tr>
               ) : (
                 filtered.map(item => (
-                  <tr key={item.id} className="border-b border-gray-700/50 hover:bg-gray-700/30">
-                    <td className="p-3">
-                      <span className={`inline-flex items-center gap-1 text-xs px-2 py-0.5 rounded-full ${
-                        item.type === 'radio' ? 'bg-green-500/20 text-green-400' : 'bg-blue-500/20 text-blue-400'
-                      }`}>
+                  <tr key={item.id} className="table-row">
+                    <td className="p-4">
+                      <span className="badge" style={{
+                        backgroundColor: item.type === 'radio' ? 'rgba(53, 198, 200, 0.1)' : 'rgba(93, 169, 246, 0.1)',
+                        color: item.type === 'radio' ? '#35C6C8' : 'var(--accent)'
+                      }}>
                         {item.type === 'radio' ? <RadioIcon size={10} /> : <Monitor size={10} />}
                         {item.type === 'radio' ? t('radio') : t('computer')}
                       </span>
                     </td>
-                    <td className="p-3 font-medium">{item.brand}</td>
-                    <td className="p-3 hidden md:table-cell text-gray-300">{item.assignedOperator}</td>
-                    <td className="p-3 hidden lg:table-cell text-gray-400 text-xs max-w-[200px] truncate">{item.comments}</td>
-                    <td className="p-3">
+                    <td className="p-4 font-medium" style={{ color: 'var(--text-primary)' }}>{item.brand}</td>
+                    <td className="p-4 hidden md:table-cell" style={{ color: 'var(--text-secondary)' }}>{item.assignedOperator}</td>
+                    <td className="p-4 hidden lg:table-cell text-xs max-w-[200px] truncate" style={{ color: 'var(--text-muted)' }}>{item.comments}</td>
+                    <td className="p-4">
                       <div className="flex gap-1">
-                        <button onClick={() => handleEdit(item)} className="p-1.5 hover:bg-gray-600 rounded text-blue-400"><Edit2 size={14} /></button>
-                        <button onClick={() => handleDelete(item.id)} className="p-1.5 hover:bg-gray-600 rounded text-red-400"><Trash2 size={14} /></button>
+                        <button onClick={() => handleEdit(item)} className="p-2 rounded-lg transition-colors" style={{ color: 'var(--accent)' }}><Edit2 size={14} /></button>
+                        <button onClick={() => handleDelete(item.id)} className="p-2 rounded-lg transition-colors" style={{ color: '#EF4444' }}><Trash2 size={14} /></button>
                       </div>
                     </td>
                   </tr>
@@ -164,45 +162,39 @@ export default function Equipment() {
         </div>
       </div>
 
-      {/* Modal Form */}
       {showForm && (
-        <div className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-4">
-          <div className="bg-gray-800 border border-gray-700 rounded-xl w-full max-w-lg">
-            <div className="flex items-center justify-between p-4 border-b border-gray-700">
-              <h3 className="font-semibold">{editingId ? t('editEquipment') : t('addEquipment')}</h3>
-              <button onClick={resetForm} className="p-1 hover:bg-gray-700 rounded"><X size={18} /></button>
+        <div className="fixed inset-0 modal-overlay z-50 flex items-center justify-center p-4">
+          <div className="modal-content w-full max-w-lg">
+            <div className="flex items-center justify-between p-5 border-b" style={{ borderColor: 'var(--border-color)' }}>
+              <h3 className="font-semibold" style={{ color: 'var(--text-primary)' }}>{editingId ? t('editEquipment') : t('addEquipment')}</h3>
+              <button onClick={resetForm} className="p-1.5 rounded-lg transition-colors" style={{ color: 'var(--text-secondary)' }}><X size={18} /></button>
             </div>
-            <div className="p-4 space-y-3">
+            <div className="p-5 space-y-4">
               <div>
-                <label className="text-xs text-gray-400 mb-1 block">{t('type')} *</label>
-                <select
-                  value={form.type}
-                  onChange={e => setForm({...form, type: e.target.value as 'radio' | 'computer'})}
-                  className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-sm focus:outline-none focus:border-blue-500"
-                >
+                <label className="text-xs mb-1.5 block" style={{ color: 'var(--text-secondary)' }}>{t('type')} *</label>
+                <select value={form.type} onChange={e => setForm({...form, type: e.target.value as 'radio' | 'computer'})}
+                  className="input-field w-full">
                   <option value="radio">{t('radio')}</option>
                   <option value="computer">{t('computer')}</option>
                 </select>
               </div>
               <div>
-                <label className="text-xs text-gray-400 mb-1 block">{t('brand')} *</label>
-                <input type="text" value={form.brand} onChange={e => setForm({...form, brand: e.target.value})}
-                  className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-sm focus:outline-none focus:border-blue-500" />
+                <label className="text-xs mb-1.5 block" style={{ color: 'var(--text-secondary)' }}>{t('brand')} *</label>
+                <input type="text" value={form.brand} onChange={e => setForm({...form, brand: e.target.value})} className="input-field w-full" />
               </div>
               <div>
-                <label className="text-xs text-gray-400 mb-1 block">{t('assignedOperator')}</label>
-                <input type="text" value={form.assignedOperator} onChange={e => setForm({...form, assignedOperator: e.target.value})}
-                  className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-sm focus:outline-none focus:border-blue-500" />
+                <label className="text-xs mb-1.5 block" style={{ color: 'var(--text-secondary)' }}>{t('assignedOperator')}</label>
+                <input type="text" value={form.assignedOperator} onChange={e => setForm({...form, assignedOperator: e.target.value})} className="input-field w-full" />
               </div>
               <div>
-                <label className="text-xs text-gray-400 mb-1 block">{t('comments')}</label>
+                <label className="text-xs mb-1.5 block" style={{ color: 'var(--text-secondary)' }}>{t('comments')}</label>
                 <textarea value={form.comments} onChange={e => setForm({...form, comments: e.target.value})} rows={3}
-                  className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-sm focus:outline-none focus:border-blue-500 resize-none" />
+                  className="input-field w-full resize-none" />
               </div>
             </div>
-            <div className="flex gap-2 p-4 border-t border-gray-700">
-              <button onClick={resetForm} className="flex-1 px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg text-sm">{t('cancel')}</button>
-              <button onClick={handleSave} className="flex-1 px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg text-sm font-medium">{t('save')}</button>
+            <div className="flex gap-2 p-5 border-t" style={{ borderColor: 'var(--border-color)' }}>
+              <button onClick={resetForm} className="btn-secondary flex-1">{t('cancel')}</button>
+              <button onClick={handleSave} className="btn-primary flex-1">{t('save')}</button>
             </div>
           </div>
         </div>

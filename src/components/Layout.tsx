@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import { useAuth } from '../context/AuthContext';
+import { useTheme } from '../context/ThemeContext';
 import {
   LayoutDashboard, Users, Phone, Truck, Radio, ClipboardList,
-  Menu, X, Globe, ChevronDown, StickyNote, ListTodo, LogOut
+  Menu, X, Globe, LogOut, StickyNote, ListTodo, Sun, Moon
 } from 'lucide-react';
 
 interface LayoutProps {
@@ -15,6 +16,7 @@ interface LayoutProps {
 export default function Layout({ children, currentPage, onNavigate }: LayoutProps) {
   const { language, setLanguage, t } = useLanguage();
   const { logout } = useAuth();
+  const { theme, toggleTheme } = useTheme();
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const navItems = [
@@ -29,31 +31,30 @@ export default function Layout({ children, currentPage, onNavigate }: LayoutProp
   ];
 
   return (
-    <div className="flex h-screen bg-gray-900 text-white overflow-hidden">
+    <div className="flex h-screen overflow-hidden" style={{ backgroundColor: 'var(--bg-page)' }}>
       {/* Mobile overlay */}
       {sidebarOpen && (
         <div
-          className="fixed inset-0 bg-black/60 z-30 lg:hidden"
+          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-30 lg:hidden"
           onClick={() => setSidebarOpen(false)}
         />
       )}
 
       {/* Sidebar */}
       <aside className={`
-        fixed lg:static inset-y-0 left-0 z-40
-        w-64 bg-gray-800 border-r border-gray-700
-        transform transition-transform duration-300 ease-in-out
+        sidebar fixed lg:static inset-y-0 left-0 z-40
+        w-64 transform transition-transform duration-300 ease-in-out
         ${sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
         flex flex-col
       `}>
         {/* Logo */}
-        <div className="p-4 border-b border-gray-700 flex items-center gap-3">
-          <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center font-bold text-lg">
-            W
+        <div className="p-5 border-b flex items-center gap-3" style={{ borderColor: 'var(--border-color)' }}>
+          <div className="w-10 h-10 rounded-xl gradient-blue flex items-center justify-center font-bold text-white text-lg shadow-lg">
+            T
           </div>
           <div>
-            <h1 className="font-bold text-sm">Warehouse Cockpit</h1>
-            <p className="text-xs text-gray-400">Operations Hub</p>
+            <h1 className="font-semibold text-sm" style={{ color: 'var(--text-primary)' }}>TDC Cockpit</h1>
+            <p className="text-xs" style={{ color: 'var(--text-muted)' }}>Operations Hub</p>
           </div>
         </div>
 
@@ -66,14 +67,7 @@ export default function Layout({ children, currentPage, onNavigate }: LayoutProp
               <button
                 key={item.id}
                 onClick={() => { onNavigate(item.id); setSidebarOpen(false); }}
-                className={`
-                  w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium
-                  transition-all duration-200
-                  ${isActive
-                    ? 'bg-blue-600/20 text-blue-400 border border-blue-500/30'
-                    : 'text-gray-300 hover:bg-gray-700/50 hover:text-white'
-                  }
-                `}
+                className={`nav-item w-full flex items-center gap-3 ${isActive ? 'active' : ''}`}
               >
                 <Icon size={18} />
                 <span>{item.label}</span>
@@ -82,23 +76,45 @@ export default function Layout({ children, currentPage, onNavigate }: LayoutProp
           })}
         </nav>
 
-        {/* Language Switch & Logout */}
-        <div className="p-4 border-t border-gray-700 space-y-2">
-          <div className="flex items-center gap-2 bg-gray-700/50 rounded-lg p-2">
-            <Globe size={16} className="text-gray-400" />
-            <button
-              onClick={() => setLanguage(language === 'en' ? 'es' : 'en')}
-              className="flex-1 flex items-center justify-between text-sm"
-            >
-              <span className="text-gray-300">{language === 'en' ? 'English' : 'Español'}</span>
-              <span className="text-xs bg-blue-600/30 text-blue-300 px-2 py-0.5 rounded">
-                {language === 'en' ? 'ES' : 'EN'}
-              </span>
-            </button>
-          </div>
+        {/* Bottom section */}
+        <div className="p-4 border-t space-y-2" style={{ borderColor: 'var(--border-color)' }}>
+          {/* Theme Toggle */}
+          <button
+            onClick={toggleTheme}
+            className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition-all hover:bg-opacity-80"
+            style={{ 
+              backgroundColor: 'var(--bg-surface-secondary)',
+              color: 'var(--text-secondary)'
+            }}
+          >
+            {theme === 'light' ? <Moon size={16} /> : <Sun size={16} />}
+            <span className="flex-1 text-left">{theme === 'light' ? 'Dark Mode' : 'Light Mode'}</span>
+          </button>
+
+          {/* Language Switch */}
+          <button
+            onClick={() => setLanguage(language === 'en' ? 'es' : 'en')}
+            className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition-all hover:bg-opacity-80"
+            style={{ 
+              backgroundColor: 'var(--bg-surface-secondary)',
+              color: 'var(--text-secondary)'
+            }}
+          >
+            <Globe size={16} />
+            <span className="flex-1 text-left">{language === 'en' ? 'English' : 'Español'}</span>
+            <span className="text-xs px-2 py-0.5 rounded-full" style={{ 
+              backgroundColor: 'rgba(93, 169, 246, 0.1)',
+              color: 'var(--accent)'
+            }}>
+              {language === 'en' ? 'ES' : 'EN'}
+            </span>
+          </button>
+
+          {/* Logout */}
           <button
             onClick={logout}
-            className="w-full flex items-center gap-2 px-3 py-2 text-sm text-gray-400 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-colors"
+            className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition-all hover:bg-red-50 dark:hover:bg-red-900/20"
+            style={{ color: 'var(--text-secondary)' }}
           >
             <LogOut size={16} />
             <span>{t('logout')}</span>
@@ -109,18 +125,25 @@ export default function Layout({ children, currentPage, onNavigate }: LayoutProp
       {/* Main content */}
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* Top bar */}
-        <header className="h-14 bg-gray-800/50 border-b border-gray-700 flex items-center justify-between px-4 lg:px-6 shrink-0">
+        <header 
+          className="h-16 flex items-center justify-between px-4 lg:px-6 shrink-0 border-b"
+          style={{ 
+            backgroundColor: 'var(--bg-surface)',
+            borderColor: 'var(--border-color)'
+          }}
+        >
           <button
             onClick={() => setSidebarOpen(true)}
-            className="lg:hidden p-2 rounded-lg hover:bg-gray-700"
+            className="lg:hidden p-2 rounded-lg transition-colors"
+            style={{ color: 'var(--text-secondary)' }}
           >
             <Menu size={20} />
           </button>
-          <h2 className="text-lg font-semibold hidden lg:block">
+          <h2 className="text-lg font-semibold hidden lg:block" style={{ color: 'var(--text-primary)' }}>
             {navItems.find(n => n.id === currentPage)?.label}
           </h2>
           <div className="flex items-center gap-3">
-            <span className="text-xs text-gray-400">
+            <span className="text-xs" style={{ color: 'var(--text-muted)' }}>
               {new Date().toLocaleDateString(language === 'en' ? 'en-US' : 'es-MX', {
                 weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
               })}

@@ -62,16 +62,13 @@ export default function Tasks() {
     saveTasks(tasks.filter(task => task.id !== id));
   };
 
-  // Auto-hide completed tasks after 3 seconds
   useEffect(() => {
     const completedTasks = tasks.filter(t => t.completed && t.completedAt);
     if (completedTasks.length > 0) {
       const timers = completedTasks.map(task => {
         const elapsed = Date.now() - new Date(task.completedAt!).getTime();
         const remaining = Math.max(0, 3000 - elapsed);
-        return setTimeout(() => {
-          // Task will be hidden from pending view automatically
-        }, remaining);
+        return setTimeout(() => {}, remaining);
       });
       return () => timers.forEach(clearTimeout);
     }
@@ -82,10 +79,10 @@ export default function Tasks() {
 
   const getPriorityColor = (priority: string) => {
     switch (priority) {
-      case 'high': return 'text-red-400 bg-red-500/20';
-      case 'medium': return 'text-yellow-400 bg-yellow-500/20';
-      case 'low': return 'text-green-400 bg-green-500/20';
-      default: return 'text-gray-400 bg-gray-500/20';
+      case 'high': return { bg: 'rgba(239, 68, 68, 0.1)', text: '#EF4444' };
+      case 'medium': return { bg: 'rgba(245, 158, 11, 0.1)', text: '#F59E0B' };
+      case 'low': return { bg: 'rgba(53, 198, 200, 0.1)', text: '#35C6C8' };
+      default: return { bg: 'var(--bg-surface-secondary)', text: 'var(--text-muted)' };
     }
   };
 
@@ -103,11 +100,11 @@ export default function Tasks() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-lg font-semibold flex items-center gap-2">
-            <ListTodo size={20} className="text-blue-400" />
+          <h2 className="text-lg font-semibold flex items-center gap-2" style={{ color: 'var(--text-primary)' }}>
+            <ListTodo size={20} style={{ color: 'var(--accent)' }} />
             {t('tasks')}
           </h2>
-          <p className="text-sm text-gray-400 mt-1">
+          <p className="text-sm mt-1" style={{ color: 'var(--text-muted)' }}>
             {pendingTasks.length} {t('pendingTasks').toLowerCase()}
             {completedTasks.length > 0 && ` • ${completedTasks.length} ${t('completedTasks').toLowerCase()}`}
           </p>
@@ -116,15 +113,15 @@ export default function Tasks() {
           {completedTasks.length > 0 && (
             <button
               onClick={() => setShowCompleted(!showCompleted)}
-              className="flex items-center gap-2 px-3 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg text-sm transition-colors"
+              className="btn-secondary flex items-center gap-2"
             >
-              <CheckCircle2 size={14} className="text-green-400" />
+              <CheckCircle2 size={14} style={{ color: '#35C6C8' }} />
               <span>{completedTasks.length}</span>
             </button>
           )}
           <button
             onClick={() => setShowForm(true)}
-            className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg text-sm font-medium transition-colors"
+            className="btn-primary flex items-center gap-2"
           >
             <Plus size={16} /> {t('addTask')}
           </button>
@@ -134,45 +131,46 @@ export default function Tasks() {
       {/* Pending Tasks */}
       <div className="space-y-2">
         {pendingTasks.length === 0 ? (
-          <div className="bg-gray-800 border border-gray-700 rounded-xl p-12 text-center">
-            <CheckCircle2 size={40} className="mx-auto text-green-500 mb-3" />
-            <p className="text-gray-400 font-medium">{t('noPendingTasks')}</p>
+          <div className="card p-12 text-center">
+            <CheckCircle2 size={40} className="mx-auto mb-3" style={{ color: '#35C6C8' }} />
+            <p className="font-medium" style={{ color: 'var(--text-secondary)' }}>{t('noPendingTasks')}</p>
           </div>
         ) : (
           pendingTasks.map(task => (
             <div
               key={task.id}
-              className="bg-gray-800 border border-gray-700 rounded-xl p-4 hover:border-gray-600 transition-all group"
+              className="card card-interactive p-4 group"
             >
               <div className="flex items-start gap-3">
-                {/* Checkbox */}
                 <button
                   onClick={() => handleComplete(task.id)}
-                  className="mt-0.5 p-1 hover:bg-gray-700 rounded-lg transition-colors shrink-0"
+                  className="mt-0.5 p-1 rounded-lg transition-colors shrink-0"
+                  style={{ color: 'var(--text-muted)' }}
                 >
-                  <Circle size={20} className="text-gray-400 hover:text-blue-400" />
+                  <Circle size={20} />
                 </button>
 
-                {/* Content */}
                 <div className="flex-1 min-w-0">
                   <div className="flex items-start justify-between gap-2 mb-2">
-                    <h3 className="font-medium text-white">{task.title}</h3>
+                    <h3 className="font-medium" style={{ color: 'var(--text-primary)' }}>{task.title}</h3>
                     <button
                       onClick={() => handleDelete(task.id)}
-                      className="p-1 hover:bg-red-500/20 rounded text-gray-400 hover:text-red-400 opacity-0 group-hover:opacity-100 transition-all"
+                      className="p-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-all"
+                      style={{ color: '#EF4444' }}
                     >
                       <Trash2 size={14} />
                     </button>
                   </div>
                   <div className="flex items-center gap-3 flex-wrap">
-                    {/* Priority badge */}
-                    <span className={`inline-flex items-center gap-1 text-xs px-2 py-0.5 rounded-full ${getPriorityColor(task.priority)}`}>
+                    <span className="badge" style={{
+                      backgroundColor: getPriorityColor(task.priority).bg,
+                      color: getPriorityColor(task.priority).text
+                    }}>
                       {getPriorityIcon(task.priority)}
                       {t(task.priority as any)}
                     </span>
-                    {/* Due date */}
                     {task.dueDate && (
-                      <span className="inline-flex items-center gap-1 text-xs text-gray-400">
+                      <span className="inline-flex items-center gap-1 text-xs" style={{ color: 'var(--text-muted)' }}>
                         <Clock size={10} />
                         {new Date(task.dueDate).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}
                       </span>
@@ -185,42 +183,47 @@ export default function Tasks() {
         )}
       </div>
 
-      {/* Completed Tasks (collapsible) */}
+      {/* Completed Tasks */}
       {showCompleted && completedTasks.length > 0 && (
         <div className="space-y-2">
-          <h3 className="text-sm font-medium text-gray-400 flex items-center gap-2 mt-6">
-            <CheckCircle2 size={14} className="text-green-400" />
+          <h3 className="text-sm font-medium flex items-center gap-2 mt-6" style={{ color: 'var(--text-muted)' }}>
+            <CheckCircle2 size={14} style={{ color: '#35C6C8' }} />
             {t('completedTasks')} ({completedTasks.length})
           </h3>
           {completedTasks.map(task => (
             <div
               key={task.id}
-              className="bg-gray-800/50 border border-gray-700/50 rounded-xl p-4 opacity-60"
+              className="card p-4 opacity-60"
             >
               <div className="flex items-start gap-3">
                 <button
                   onClick={() => handleComplete(task.id)}
-                  className="mt-0.5 p-1 hover:bg-gray-700 rounded-lg transition-colors shrink-0"
+                  className="mt-0.5 p-1 rounded-lg transition-colors shrink-0"
+                  style={{ color: '#35C6C8' }}
                 >
-                  <CheckCircle2 size={20} className="text-green-400" />
+                  <CheckCircle2 size={20} />
                 </button>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-start justify-between gap-2 mb-2">
-                    <h3 className="font-medium text-gray-400 line-through">{task.title}</h3>
+                    <h3 className="font-medium line-through" style={{ color: 'var(--text-muted)' }}>{task.title}</h3>
                     <button
                       onClick={() => handleDelete(task.id)}
-                      className="p-1 hover:bg-red-500/20 rounded text-gray-500 hover:text-red-400 transition-all"
+                      className="p-1.5 rounded-lg transition-all"
+                      style={{ color: 'var(--text-muted)' }}
                     >
                       <Trash2 size={14} />
                     </button>
                   </div>
                   <div className="flex items-center gap-3 flex-wrap">
-                    <span className={`inline-flex items-center gap-1 text-xs px-2 py-0.5 rounded-full ${getPriorityColor(task.priority)} opacity-50`}>
+                    <span className="badge opacity-50" style={{
+                      backgroundColor: getPriorityColor(task.priority).bg,
+                      color: getPriorityColor(task.priority).text
+                    }}>
                       {getPriorityIcon(task.priority)}
                       {t(task.priority as any)}
                     </span>
                     {task.completedAt && (
-                      <span className="inline-flex items-center gap-1 text-xs text-gray-500">
+                      <span className="inline-flex items-center gap-1 text-xs" style={{ color: 'var(--text-muted)' }}>
                         <Clock size={10} />
                         {new Date(task.completedAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}
                       </span>
@@ -235,34 +238,34 @@ export default function Tasks() {
 
       {/* Modal Form */}
       {showForm && (
-        <div className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-4">
-          <div className="bg-gray-800 border border-gray-700 rounded-xl w-full max-w-lg">
-            <div className="flex items-center justify-between p-4 border-b border-gray-700">
-              <h3 className="font-semibold flex items-center gap-2">
-                <ListTodo size={18} className="text-blue-400" />
+        <div className="fixed inset-0 modal-overlay z-50 flex items-center justify-center p-4">
+          <div className="modal-content w-full max-w-lg">
+            <div className="flex items-center justify-between p-5 border-b" style={{ borderColor: 'var(--border-color)' }}>
+              <h3 className="font-semibold flex items-center gap-2" style={{ color: 'var(--text-primary)' }}>
+                <ListTodo size={18} style={{ color: 'var(--accent)' }} />
                 {t('addTask')}
               </h3>
-              <button onClick={() => setShowForm(false)} className="p-1 hover:bg-gray-700 rounded"><X size={18} /></button>
+              <button onClick={() => setShowForm(false)} className="p-1.5 rounded-lg transition-colors" style={{ color: 'var(--text-secondary)' }}><X size={18} /></button>
             </div>
-            <div className="p-4 space-y-3">
+            <div className="p-5 space-y-4">
               <div>
-                <label className="text-xs text-gray-400 mb-1 block">Task *</label>
+                <label className="text-xs mb-1.5 block" style={{ color: 'var(--text-secondary)' }}>Task *</label>
                 <input
                   type="text"
                   value={form.title}
                   onChange={e => setForm({...form, title: e.target.value})}
                   placeholder="What needs to be done?"
-                  className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-sm focus:outline-none focus:border-blue-500"
+                  className="input-field w-full"
                   autoFocus
                 />
               </div>
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="text-xs text-gray-400 mb-1 block">{t('priority')}</label>
+                  <label className="text-xs mb-1.5 block" style={{ color: 'var(--text-secondary)' }}>{t('priority')}</label>
                   <select
                     value={form.priority}
                     onChange={e => setForm({...form, priority: e.target.value as any})}
-                    className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-sm focus:outline-none focus:border-blue-500"
+                    className="input-field w-full"
                   >
                     <option value="high">{t('high')}</option>
                     <option value="medium">{t('medium')}</option>
@@ -270,19 +273,19 @@ export default function Tasks() {
                   </select>
                 </div>
                 <div>
-                  <label className="text-xs text-gray-400 mb-1 block">{t('dueDate')}</label>
+                  <label className="text-xs mb-1.5 block" style={{ color: 'var(--text-secondary)' }}>{t('dueDate')}</label>
                   <input
                     type="date"
                     value={form.dueDate}
                     onChange={e => setForm({...form, dueDate: e.target.value})}
-                    className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-sm focus:outline-none focus:border-blue-500"
+                    className="input-field w-full"
                   />
                 </div>
               </div>
             </div>
-            <div className="flex gap-2 p-4 border-t border-gray-700">
-              <button onClick={() => setShowForm(false)} className="flex-1 px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg text-sm">{t('cancel')}</button>
-              <button onClick={handleAdd} className="flex-1 px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg text-sm font-medium">{t('save')}</button>
+            <div className="flex gap-2 p-5 border-t" style={{ borderColor: 'var(--border-color)' }}>
+              <button onClick={() => setShowForm(false)} className="btn-secondary flex-1">{t('cancel')}</button>
+              <button onClick={handleAdd} className="btn-primary flex-1">{t('save')}</button>
             </div>
           </div>
         </div>

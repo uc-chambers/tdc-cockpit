@@ -58,56 +58,60 @@ export default function Employees() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row gap-3 items-start sm:items-center justify-between">
         <div className="relative flex-1 w-full sm:max-w-xs">
-          <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+          <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2" style={{ color: 'var(--text-muted)' }} />
           <input
             type="text"
             placeholder={t('search')}
             value={search}
             onChange={e => setSearch(e.target.value)}
-            className="w-full pl-9 pr-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-sm focus:outline-none focus:border-blue-500"
+            className="input-field w-full pl-9 pr-4"
           />
         </div>
         <button
           onClick={() => setShowForm(true)}
-          className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg text-sm font-medium transition-colors"
+          className="btn-primary flex items-center gap-2"
         >
           <Plus size={16} /> {t('addEmployee')}
         </button>
       </div>
 
       {/* Table */}
-      <div className="bg-gray-800 border border-gray-700 rounded-xl overflow-hidden">
+      <div className="table-container">
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-gray-700 bg-gray-800/50">
-                <th className="text-left p-3 font-medium text-gray-400">{t('fullName')}</th>
-                <th className="text-left p-3 font-medium text-gray-400 hidden md:table-cell">{t('businessUnit')}</th>
-                <th className="text-left p-3 font-medium text-gray-400 hidden lg:table-cell">{t('startDate')}</th>
-                <th className="text-left p-3 font-medium text-gray-400 hidden sm:table-cell">{t('seniority')}</th>
-                <th className="text-left p-3 font-medium text-gray-400 hidden lg:table-cell">{t('role')}</th>
-                <th className="text-left p-3 font-medium text-gray-400 hidden md:table-cell">{t('age')}</th>
-                <th className="text-left p-3 font-medium text-gray-400 hidden lg:table-cell">{t('phone')}</th>
-                <th className="text-left p-3 font-medium text-gray-400">{t('actions')}</th>
+              <tr className="table-header">
+                <th className="text-left p-4 font-medium text-xs uppercase tracking-wider" style={{ color: 'var(--text-muted)' }}>{t('fullName')}</th>
+                <th className="text-left p-4 font-medium text-xs uppercase tracking-wider hidden md:table-cell" style={{ color: 'var(--text-muted)' }}>{t('businessUnit')}</th>
+                <th className="text-left p-4 font-medium text-xs uppercase tracking-wider hidden lg:table-cell" style={{ color: 'var(--text-muted)' }}>{t('startDate')}</th>
+                <th className="text-left p-4 font-medium text-xs uppercase tracking-wider hidden sm:table-cell" style={{ color: 'var(--text-muted)' }}>{t('seniority')}</th>
+                <th className="text-left p-4 font-medium text-xs uppercase tracking-wider hidden lg:table-cell" style={{ color: 'var(--text-muted)' }}>{t('role')}</th>
+                <th className="text-left p-4 font-medium text-xs uppercase tracking-wider hidden md:table-cell" style={{ color: 'var(--text-muted)' }}>{t('age')}</th>
+                <th className="text-left p-4 font-medium text-xs uppercase tracking-wider hidden lg:table-cell" style={{ color: 'var(--text-muted)' }}>{t('phone')}</th>
+                <th className="text-left p-4 font-medium text-xs uppercase tracking-wider" style={{ color: 'var(--text-muted)' }}>{t('actions')}</th>
               </tr>
             </thead>
             <tbody>
               {filtered.length === 0 ? (
-                <tr><td colSpan={8} className="text-center p-8 text-gray-500">{t('noData')}</td></tr>
+                <tr><td colSpan={8} className="text-center p-12" style={{ color: 'var(--text-muted)' }}>{t('noData')}</td></tr>
               ) : (
                 filtered.map(emp => (
-                  <tr key={emp.id} className="border-b border-gray-700/50 hover:bg-gray-700/30">
-                    <td className="p-3 font-medium">{emp.fullName}</td>
-                    <td className="p-3 hidden md:table-cell text-gray-300">{emp.businessUnit}</td>
-                    <td className="p-3 hidden lg:table-cell text-gray-300">{emp.startDate}</td>
-                    <td className="p-3 hidden sm:table-cell text-gray-300">{emp.seniority || calcSeniority(emp.startDate)} yrs</td>
-                    <td className="p-3 hidden lg:table-cell text-gray-300">{emp.role}</td>
-                    <td className="p-3 hidden md:table-cell text-gray-300">{emp.age}</td>
-                    <td className="p-3 hidden lg:table-cell text-gray-300">{emp.phone}</td>
-                    <td className="p-3">
+                  <tr key={emp.id} className="table-row">
+                    <td className="p-4 font-medium" style={{ color: 'var(--text-primary)' }}>{emp.fullName}</td>
+                    <td className="p-4 hidden md:table-cell" style={{ color: 'var(--text-secondary)' }}>{emp.businessUnit}</td>
+                    <td className="p-4 hidden lg:table-cell" style={{ color: 'var(--text-secondary)' }}>{emp.startDate}</td>
+                    <td className="p-4 hidden sm:table-cell" style={{ color: 'var(--text-secondary)' }}>{emp.seniority || calcSeniority(emp.startDate)} yrs</td>
+                    <td className="p-4 hidden lg:table-cell" style={{ color: 'var(--text-secondary)' }}>{emp.role}</td>
+                    <td className="p-4 hidden md:table-cell" style={{ color: 'var(--text-secondary)' }}>{emp.age}</td>
+                    <td className="p-4 hidden lg:table-cell" style={{ color: 'var(--text-secondary)' }}>{emp.phone}</td>
+                    <td className="p-4">
                       <div className="flex gap-1">
-                        <button onClick={() => handleEdit(emp)} className="p-1.5 hover:bg-gray-600 rounded text-blue-400"><Edit2 size={14} /></button>
-                        <button onClick={() => handleDelete(emp.id)} className="p-1.5 hover:bg-gray-600 rounded text-red-400"><Trash2 size={14} /></button>
+                        <button onClick={() => handleEdit(emp)} className="p-2 rounded-lg transition-colors" style={{ color: 'var(--accent)' }}>
+                          <Edit2 size={14} />
+                        </button>
+                        <button onClick={() => handleDelete(emp.id)} className="p-2 rounded-lg transition-colors" style={{ color: '#EF4444' }}>
+                          <Trash2 size={14} />
+                        </button>
                       </div>
                     </td>
                   </tr>
@@ -120,54 +124,54 @@ export default function Employees() {
 
       {/* Modal Form */}
       {showForm && (
-        <div className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-4">
-          <div className="bg-gray-800 border border-gray-700 rounded-xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
-            <div className="flex items-center justify-between p-4 border-b border-gray-700">
-              <h3 className="font-semibold flex items-center gap-2">
-                <UserPlus size={18} />
+        <div className="fixed inset-0 modal-overlay z-50 flex items-center justify-center p-4">
+          <div className="modal-content w-full max-w-lg max-h-[90vh] overflow-y-auto">
+            <div className="flex items-center justify-between p-5 border-b" style={{ borderColor: 'var(--border-color)' }}>
+              <h3 className="font-semibold flex items-center gap-2" style={{ color: 'var(--text-primary)' }}>
+                <UserPlus size={18} style={{ color: 'var(--accent)' }} />
                 {editingId ? t('editEmployee') : t('addEmployee')}
               </h3>
-              <button onClick={resetForm} className="p-1 hover:bg-gray-700 rounded"><X size={18} /></button>
+              <button onClick={resetForm} className="p-1.5 rounded-lg transition-colors" style={{ color: 'var(--text-secondary)' }}><X size={18} /></button>
             </div>
-            <div className="p-4 space-y-3">
+            <div className="p-5 space-y-4">
               <div>
-                <label className="text-xs text-gray-400 mb-1 block">{t('fullName')} *</label>
+                <label className="text-xs mb-1.5 block" style={{ color: 'var(--text-secondary)' }}>{t('fullName')} *</label>
                 <input type="text" value={form.fullName} onChange={e => setForm({...form, fullName: e.target.value})}
-                  className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-sm focus:outline-none focus:border-blue-500" />
+                  className="input-field w-full" />
               </div>
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="text-xs text-gray-400 mb-1 block">{t('businessUnit')}</label>
+                  <label className="text-xs mb-1.5 block" style={{ color: 'var(--text-secondary)' }}>{t('businessUnit')}</label>
                   <input type="text" value={form.businessUnit} onChange={e => setForm({...form, businessUnit: e.target.value})}
-                    className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-sm focus:outline-none focus:border-blue-500" />
+                    className="input-field w-full" />
                 </div>
                 <div>
-                  <label className="text-xs text-gray-400 mb-1 block">{t('role')}</label>
+                  <label className="text-xs mb-1.5 block" style={{ color: 'var(--text-secondary)' }}>{t('role')}</label>
                   <input type="text" value={form.role} onChange={e => setForm({...form, role: e.target.value})}
-                    className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-sm focus:outline-none focus:border-blue-500" />
+                    className="input-field w-full" />
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="text-xs text-gray-400 mb-1 block">{t('startDate')}</label>
+                  <label className="text-xs mb-1.5 block" style={{ color: 'var(--text-secondary)' }}>{t('startDate')}</label>
                   <input type="date" value={form.startDate} onChange={e => setForm({...form, startDate: e.target.value, seniority: calcSeniority(e.target.value)})}
-                    className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-sm focus:outline-none focus:border-blue-500" />
+                    className="input-field w-full" />
                 </div>
                 <div>
-                  <label className="text-xs text-gray-400 mb-1 block">{t('age')}</label>
+                  <label className="text-xs mb-1.5 block" style={{ color: 'var(--text-secondary)' }}>{t('age')}</label>
                   <input type="number" value={form.age} onChange={e => setForm({...form, age: parseInt(e.target.value) || 0})}
-                    className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-sm focus:outline-none focus:border-blue-500" />
+                    className="input-field w-full" />
                 </div>
               </div>
               <div>
-                <label className="text-xs text-gray-400 mb-1 block">{t('phone')}</label>
+                <label className="text-xs mb-1.5 block" style={{ color: 'var(--text-secondary)' }}>{t('phone')}</label>
                 <input type="tel" value={form.phone} onChange={e => setForm({...form, phone: e.target.value})}
-                  className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-sm focus:outline-none focus:border-blue-500" />
+                  className="input-field w-full" />
               </div>
             </div>
-            <div className="flex gap-2 p-4 border-t border-gray-700">
-              <button onClick={resetForm} className="flex-1 px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg text-sm">{t('cancel')}</button>
-              <button onClick={handleSave} className="flex-1 px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg text-sm font-medium">{t('save')}</button>
+            <div className="flex gap-2 p-5 border-t" style={{ borderColor: 'var(--border-color)' }}>
+              <button onClick={resetForm} className="btn-secondary flex-1">{t('cancel')}</button>
+              <button onClick={handleSave} className="btn-primary flex-1">{t('save')}</button>
             </div>
           </div>
         </div>
