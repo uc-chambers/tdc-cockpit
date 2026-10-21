@@ -5,6 +5,7 @@ import { AuthProvider, useAuth } from './context/AuthContext';
 import { ThemeProvider } from './context/ThemeContext';
 import Layout from './components/Layout';
 import Login from './pages/Login';
+import LockedScreen from './pages/LockedScreen';
 import Dashboard from './pages/Dashboard';
 import Employees from './pages/Employees';
 import PhoneDirectory from './pages/PhoneDirectory';
@@ -15,11 +16,15 @@ import Notes from './pages/Notes';
 import Tasks from './pages/Tasks';
 
 function AppContent() {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, isLocked } = useAuth();
   const [currentPage, setCurrentPage] = useState('dashboard');
 
   if (!isAuthenticated) {
     return <Login />;
+  }
+
+  if (isLocked) {
+    return <LockedScreen />;
   }
 
   const renderPage = () => {

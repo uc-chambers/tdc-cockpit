@@ -124,6 +124,12 @@ export const translations = {
     noPendingTasks: "All caught up! No pending tasks.",
     taskCockpit: "TDC Cockpit",
     logout: "Logout",
+    lockSession: "Lock Session",
+    sessionLocked: "Session Locked",
+    enterPasswordToUnlock: "Enter your password to unlock",
+    incorrectPassword: "Incorrect password. Try again.",
+    unlock: "Unlock",
+    signOutInstead: "Sign out instead",
   },
   es: {
     // Navigation
@@ -250,6 +256,12 @@ export const translations = {
     noPendingTasks: "¡Todo al día! No hay tareas pendientes.",
     taskCockpit: "TDC Cockpit",
     logout: "Cerrar Sesión",
+    lockSession: "Bloquear Sesión",
+    sessionLocked: "Sesión Bloqueada",
+    enterPasswordToUnlock: "Ingresa tu contraseña para desbloquear",
+    incorrectPassword: "Contraseña incorrecta. Intenta de nuevo.",
+    unlock: "Desbloquear",
+    signOutInstead: "Cerrar sesión",
   }
 };
 

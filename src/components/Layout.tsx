@@ -4,7 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
 import {
   LayoutDashboard, Users, Phone, Truck, Radio, ClipboardList,
-  Menu, Globe, LogOut, StickyNote, ListTodo, Sun, Moon
+  Menu, Globe, LogOut, Lock, StickyNote, ListTodo, Sun, Moon
 } from 'lucide-react';
 
 interface LayoutProps {
@@ -15,7 +15,7 @@ interface LayoutProps {
 
 export default function Layout({ children, currentPage, onNavigate }: LayoutProps) {
   const { language, setLanguage, t } = useLanguage();
-  const { logout } = useAuth();
+  const { logout, lock } = useAuth();
   const { theme, toggleTheme } = useTheme();
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
@@ -99,6 +99,15 @@ export default function Layout({ children, currentPage, onNavigate }: LayoutProp
             }}>
               {language === 'en' ? 'ES' : 'EN'}
             </span>
+          </button>
+
+          {/* Lock Session */}
+          <button
+            onClick={lock}
+            className="nav-item w-full flex items-center gap-3 hover:!text-amber-500 hover:!bg-amber-50 dark:hover:!bg-amber-900/20"
+          >
+            <Lock size={18} />
+            <span className="text-sm">{t('lockSession')}</span>
           </button>
 
           {/* Logout */}
