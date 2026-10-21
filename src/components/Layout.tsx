@@ -47,18 +47,18 @@ export default function Layout({ children, currentPage, onNavigate }: LayoutProp
         flex flex-col
       `}>
         {/* Logo */}
-        <div className="px-5 py-4 border-b flex items-center gap-3" style={{ borderColor: 'var(--border-color)' }}>
-          <div className="w-9 h-9 rounded-lg gradient-blue flex items-center justify-center font-bold text-white text-sm shadow-sm">
+        <div className="px-5 py-5 border-b border-white/10 flex items-center gap-3">
+          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-400 to-purple-500 flex items-center justify-center font-bold text-white text-lg shadow-lg shadow-purple-500/30">
             T
           </div>
           <div className="flex-1 min-w-0">
-            <h1 className="font-semibold text-sm truncate" style={{ color: 'var(--text-primary)' }}>TDC Cockpit</h1>
-            <p className="text-xs truncate" style={{ color: 'var(--text-muted)' }}>Operations Hub</p>
+            <h1 className="font-bold text-sm truncate text-white">TDC Cockpit</h1>
+            <p className="text-xs truncate text-indigo-200">Operations Hub</p>
           </div>
         </div>
 
         {/* Navigation */}
-        <nav className="flex-1 px-3 py-4 space-y-0.5 overflow-y-auto">
+        <nav className="flex-1 px-3 py-5 space-y-1 overflow-y-auto">
           {navItems.map((item) => {
             const Icon = item.icon;
             const isActive = currentPage === item.id;
@@ -76,7 +76,7 @@ export default function Layout({ children, currentPage, onNavigate }: LayoutProp
         </nav>
 
         {/* Bottom section */}
-        <div className="px-3 py-3 border-t space-y-1" style={{ borderColor: 'var(--border-color)' }}>
+        <div className="px-3 py-4 border-t border-white/10 space-y-1">
           {/* Theme Toggle */}
           <button
             onClick={toggleTheme}
@@ -93,10 +93,7 @@ export default function Layout({ children, currentPage, onNavigate }: LayoutProp
           >
             <Globe size={18} />
             <span className="flex-1 text-left text-sm">{language === 'en' ? 'English' : 'Español'}</span>
-            <span className="text-xs px-1.5 py-0.5 rounded" style={{ 
-              backgroundColor: 'var(--accent-light)',
-              color: 'var(--accent)'
-            }}>
+            <span className="text-xs px-2 py-0.5 rounded-md bg-white/15 text-white font-semibold">
               {language === 'en' ? 'ES' : 'EN'}
             </span>
           </button>
@@ -104,7 +101,7 @@ export default function Layout({ children, currentPage, onNavigate }: LayoutProp
           {/* Lock Session */}
           <button
             onClick={lock}
-            className="nav-item w-full flex items-center gap-3 hover:!text-amber-500 hover:!bg-amber-50 dark:hover:!bg-amber-900/20"
+            className="nav-item w-full flex items-center gap-3 hover:bg-amber-500/20 hover:text-amber-300"
           >
             <Lock size={18} />
             <span className="text-sm">{t('lockSession')}</span>
@@ -113,7 +110,7 @@ export default function Layout({ children, currentPage, onNavigate }: LayoutProp
           {/* Logout */}
           <button
             onClick={logout}
-            className="nav-item w-full flex items-center gap-3 hover:!text-red-500 hover:!bg-red-50 dark:hover:!bg-red-900/20"
+            className="nav-item w-full flex items-center gap-3 hover:bg-red-500/20 hover:text-red-300"
           >
             <LogOut size={18} />
             <span className="text-sm">{t('logout')}</span>

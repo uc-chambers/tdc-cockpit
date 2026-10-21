@@ -53,10 +53,10 @@ export default function LockedScreen() {
         <div className="card rounded-2xl p-8">
           {/* Lock Icon */}
           <div className="flex flex-col items-center mb-8">
-            <div className="w-16 h-16 rounded-2xl flex items-center justify-center mb-5 shadow-md" style={{ background: 'var(--gradient-purple)' }}>
+            <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center mb-5 shadow-xl shadow-purple-500/30">
               <Lock size={28} className="text-white" />
             </div>
-            <h1 className="text-heading text-center mb-1.5" style={{ color: 'var(--text-primary)' }}>{t('sessionLocked')}</h1>
+            <h1 className="text-heading text-center mb-2 bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">{t('sessionLocked')}</h1>
             <p className="text-caption text-center" style={{ color: 'var(--text-muted)' }}>{t('enterPasswordToUnlock')}</p>
           </div>
 
@@ -94,7 +94,7 @@ export default function LockedScreen() {
             <button
               type="submit"
               disabled={loading || !password}
-              className="btn-primary w-full flex items-center justify-center gap-2 py-2.5 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full flex items-center justify-center gap-2 py-3 px-6 rounded-xl font-semibold text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 shadow-lg shadow-purple-500/30 hover:shadow-xl hover:shadow-purple-500/40 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {loading ? (
                 <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>

@@ -52,10 +52,10 @@ export default function Login() {
         <div className="card rounded-2xl p-8">
           {/* Logo */}
           <div className="flex flex-col items-center mb-8">
-            <div className="w-14 h-14 rounded-xl gradient-blue flex items-center justify-center mb-5 shadow-md">
-              <span className="text-xl font-bold text-white">T</span>
+            <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center mb-5 shadow-xl shadow-purple-500/30">
+              <span className="text-2xl font-bold text-white">T</span>
             </div>
-            <h1 className="text-heading text-center mb-1.5" style={{ color: 'var(--text-primary)' }}>Welcome Uriel</h1>
+            <h1 className="text-heading text-center mb-2 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">Welcome Uriel</h1>
             <p className="text-caption text-center" style={{ color: 'var(--text-muted)' }}>TDC Cockpit • Operations Hub</p>
           </div>
 
@@ -93,7 +93,7 @@ export default function Login() {
             <button
               type="submit"
               disabled={loading || !password}
-              className="btn-primary w-full flex items-center justify-center gap-2 py-2.5 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full flex items-center justify-center gap-2 py-3 px-6 rounded-xl font-semibold text-white bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 hover:from-indigo-600 hover:via-purple-600 hover:to-pink-600 shadow-lg shadow-purple-500/30 hover:shadow-xl hover:shadow-purple-500/40 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {loading ? (
                 <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>

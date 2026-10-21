@@ -91,55 +91,63 @@ export default function Notes() {
 
       {/* Notes Grid */}
       {notes.length === 0 ? (
-        <div className="card p-16 text-center">
-          <StickyNote size={40} className="mx-auto mb-3" style={{ color: 'var(--text-muted)' }} />
+        <div className="card p-20 text-center">
+          <StickyNote size={48} className="mx-auto mb-4" style={{ color: 'var(--text-muted)' }} />
           <p className="text-body" style={{ color: 'var(--text-muted)' }}>{t('noData')}</p>
-          <p className="text-caption mt-1" style={{ color: 'var(--text-muted)' }}>Create your first note to get started</p>
+          <p className="text-caption mt-2" style={{ color: 'var(--text-muted)' }}>Create your first note to get started</p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {sortedNotes.map(note => (
             <div
               key={note.id}
-              className={`card card-interactive relative bg-gradient-to-br ${note.color} p-5`}
+              className={`card card-interactive relative p-6`}
+              style={{
+                background: note.color.includes('blue') ? 'linear-gradient(135deg, rgba(59, 130, 246, 0.08), rgba(99, 102, 241, 0.08))' :
+                           note.color.includes('purple') ? 'linear-gradient(135deg, rgba(139, 92, 246, 0.08), rgba(168, 85, 247, 0.08))' :
+                           note.color.includes('green') ? 'linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(6, 182, 212, 0.08))' :
+                           note.color.includes('orange') ? 'linear-gradient(135deg, rgba(245, 158, 11, 0.08), rgba(236, 72, 153, 0.08))' :
+                           note.color.includes('pink') ? 'linear-gradient(135deg, rgba(236, 72, 153, 0.08), rgba(244, 114, 182, 0.08))' :
+                           'linear-gradient(135deg, rgba(245, 158, 11, 0.08), rgba(251, 191, 36, 0.08))'
+              }}
             >
               {/* Pin indicator */}
               {note.pinned && (
-                <div className="absolute -top-2 -right-2 w-6 h-6 rounded-full flex items-center justify-center shadow-sm" style={{ backgroundColor: '#EC4899' }}>
-                  <Pin size={12} className="text-white" />
+                <div className="absolute -top-2 -right-2 w-7 h-7 rounded-full bg-gradient-to-br from-pink-500 to-purple-500 flex items-center justify-center shadow-lg shadow-pink-500/30">
+                  <Pin size={13} className="text-white" />
                 </div>
               )}
 
               {/* Actions */}
-              <div className="flex items-start justify-between mb-3">
-                <h3 className="text-body font-semibold pr-6 flex-1" style={{ color: 'var(--text-primary)' }}>{note.title || 'Untitled'}</h3>
-                <div className="flex gap-0.5 shrink-0">
+              <div className="flex items-start justify-between mb-4">
+                <h3 className="text-body font-bold pr-6 flex-1" style={{ color: 'var(--text-primary)' }}>{note.title || 'Untitled'}</h3>
+                <div className="flex gap-1 shrink-0">
                   <button
                     onClick={() => handlePin(note.id)}
-                    className="p-1.5 rounded-md transition-all"
+                    className="p-2 rounded-lg transition-all"
                     style={{
                       backgroundColor: note.pinned ? 'rgba(236, 72, 153, 0.15)' : 'transparent',
                       color: note.pinned ? '#EC4899' : 'var(--text-muted)'
                     }}
                   >
-                    <Pin size={12} />
+                    <Pin size={13} />
                   </button>
                   <button
                     onClick={() => handleDelete(note.id)}
-                    className="p-1.5 rounded-md transition-all hover:bg-red-500/20"
+                    className="p-2 rounded-lg transition-all hover:bg-red-50 dark:hover:bg-red-900/20"
                     style={{ color: 'var(--text-muted)' }}
                   >
-                    <Trash2 size={12} />
+                    <Trash2 size={13} />
                   </button>
                 </div>
               </div>
 
               {/* Content */}
-              <p className="text-body whitespace-pre-wrap leading-relaxed" style={{ color: 'var(--text-secondary)' }}>{note.content}</p>
+              <p className="text-body whitespace-pre-wrap leading-relaxed mb-4" style={{ color: 'var(--text-secondary)' }}>{note.content}</p>
 
               {/* Footer */}
-              <div className="flex items-center gap-1.5 mt-4 pt-3 border-t" style={{ borderColor: 'rgba(0,0,0,0.08)' }}>
-                <Clock size={10} style={{ color: 'var(--text-muted)' }} />
+              <div className="flex items-center gap-2 pt-3 border-t" style={{ borderColor: 'var(--border-subtle)' }}>
+                <Clock size={11} style={{ color: 'var(--text-muted)' }} />
                 <span className="text-caption" style={{ color: 'var(--text-muted)' }}>
                   {new Date(note.createdAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}
                 </span>

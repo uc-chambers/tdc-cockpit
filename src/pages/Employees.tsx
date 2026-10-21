@@ -81,35 +81,39 @@ export default function Employees() {
           <table className="w-full text-sm">
             <thead>
               <tr className="table-header">
-                <th className="text-left px-5 py-3.5 text-label" style={{ color: 'var(--text-muted)' }}>{t('fullName')}</th>
-                <th className="text-left px-5 py-3.5 text-label hidden md:table-cell" style={{ color: 'var(--text-muted)' }}>{t('businessUnit')}</th>
-                <th className="text-left px-5 py-3.5 text-label hidden lg:table-cell" style={{ color: 'var(--text-muted)' }}>{t('startDate')}</th>
-                <th className="text-left px-5 py-3.5 text-label hidden sm:table-cell" style={{ color: 'var(--text-muted)' }}>{t('seniority')}</th>
-                <th className="text-left px-5 py-3.5 text-label hidden lg:table-cell" style={{ color: 'var(--text-muted)' }}>{t('role')}</th>
-                <th className="text-left px-5 py-3.5 text-label hidden md:table-cell" style={{ color: 'var(--text-muted)' }}>{t('age')}</th>
-                <th className="text-left px-5 py-3.5 text-label hidden lg:table-cell" style={{ color: 'var(--text-muted)' }}>{t('phone')}</th>
-                <th className="text-left px-5 py-3.5 text-label" style={{ color: 'var(--text-muted)' }}>{t('actions')}</th>
+                <th className="text-left px-6 py-4 text-label" style={{ color: 'var(--text-muted)' }}>{t('fullName')}</th>
+                <th className="text-left px-6 py-4 text-label hidden md:table-cell" style={{ color: 'var(--text-muted)' }}>{t('businessUnit')}</th>
+                <th className="text-left px-6 py-4 text-label hidden lg:table-cell" style={{ color: 'var(--text-muted)' }}>{t('startDate')}</th>
+                <th className="text-left px-6 py-4 text-label hidden sm:table-cell" style={{ color: 'var(--text-muted)' }}>{t('seniority')}</th>
+                <th className="text-left px-6 py-4 text-label hidden lg:table-cell" style={{ color: 'var(--text-muted)' }}>{t('role')}</th>
+                <th className="text-left px-6 py-4 text-label hidden md:table-cell" style={{ color: 'var(--text-muted)' }}>{t('age')}</th>
+                <th className="text-left px-6 py-4 text-label hidden lg:table-cell" style={{ color: 'var(--text-muted)' }}>{t('phone')}</th>
+                <th className="text-left px-6 py-4 text-label" style={{ color: 'var(--text-muted)' }}>{t('actions')}</th>
               </tr>
             </thead>
             <tbody>
               {filtered.length === 0 ? (
-                <tr><td colSpan={8} className="text-center py-16" style={{ color: 'var(--text-muted)' }}>{t('noData')}</td></tr>
+                <tr><td colSpan={8} className="text-center py-20" style={{ color: 'var(--text-muted)' }}>{t('noData')}</td></tr>
               ) : (
                 filtered.map(emp => (
                   <tr key={emp.id} className="table-row">
-                    <td className="px-5 py-3.5 font-medium" style={{ color: 'var(--text-primary)' }}>{emp.fullName}</td>
-                    <td className="px-5 py-3.5 hidden md:table-cell" style={{ color: 'var(--text-secondary)' }}>{emp.businessUnit}</td>
-                    <td className="px-5 py-3.5 hidden lg:table-cell" style={{ color: 'var(--text-secondary)' }}>{emp.startDate}</td>
-                    <td className="px-5 py-3.5 hidden sm:table-cell" style={{ color: 'var(--text-secondary)' }}>{emp.seniority || calcSeniority(emp.startDate)} yrs</td>
-                    <td className="px-5 py-3.5 hidden lg:table-cell" style={{ color: 'var(--text-secondary)' }}>{emp.role}</td>
-                    <td className="px-5 py-3.5 hidden md:table-cell" style={{ color: 'var(--text-secondary)' }}>{emp.age}</td>
-                    <td className="px-5 py-3.5 hidden lg:table-cell" style={{ color: 'var(--text-secondary)' }}>{emp.phone}</td>
-                    <td className="px-5 py-3.5">
-                      <div className="flex gap-0.5">
-                        <button onClick={() => handleEdit(emp)} className="p-1.5 rounded-md hover:bg-blue-50 dark:hover:bg-blue-900/20" style={{ color: 'var(--accent)' }}>
+                    <td className="px-6 py-4 font-semibold" style={{ color: 'var(--text-primary)' }}>{emp.fullName}</td>
+                    <td className="px-6 py-4 hidden md:table-cell" style={{ color: 'var(--text-secondary)' }}>{emp.businessUnit}</td>
+                    <td className="px-6 py-4 hidden lg:table-cell" style={{ color: 'var(--text-secondary)' }}>{emp.startDate}</td>
+                    <td className="px-6 py-4 hidden sm:table-cell">
+                      <span className="badge" style={{ backgroundColor: 'rgba(99, 102, 241, 0.1)', color: 'var(--accent)' }}>
+                        {emp.seniority || calcSeniority(emp.startDate)} yrs
+                      </span>
+                    </td>
+                    <td className="px-6 py-4 hidden lg:table-cell" style={{ color: 'var(--text-secondary)' }}>{emp.role}</td>
+                    <td className="px-6 py-4 hidden md:table-cell" style={{ color: 'var(--text-secondary)' }}>{emp.age}</td>
+                    <td className="px-6 py-4 hidden lg:table-cell" style={{ color: 'var(--text-secondary)' }}>{emp.phone}</td>
+                    <td className="px-6 py-4">
+                      <div className="flex gap-1">
+                        <button onClick={() => handleEdit(emp)} className="p-2 rounded-lg bg-indigo-50 dark:bg-indigo-900/20 hover:bg-indigo-100 dark:hover:bg-indigo-900/30 transition-colors" style={{ color: 'var(--accent)' }}>
                           <Edit2 size={14} />
                         </button>
-                        <button onClick={() => handleDelete(emp.id)} className="p-1.5 rounded-md hover:bg-red-50 dark:hover:bg-red-900/20" style={{ color: 'var(--danger)' }}>
+                        <button onClick={() => handleDelete(emp.id)} className="p-2 rounded-lg bg-red-50 dark:bg-red-900/20 hover:bg-red-100 dark:hover:bg-red-900/30 transition-colors" style={{ color: 'var(--danger)' }}>
                           <Trash2 size={14} />
                         </button>
                       </div>

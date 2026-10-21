@@ -275,32 +275,34 @@ export default function Operations() {
       </div>
 
       {/* Daily Dashboard */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
         <div className="card p-6">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="font-semibold flex items-center gap-2" style={{ color: 'var(--text-primary)' }}>
-              <Calendar size={18} style={{ color: '#35C6C8' }} />
+          <div className="flex items-center justify-between mb-5">
+            <h3 className="text-subheading flex items-center gap-3" style={{ color: 'var(--text-primary)' }}>
+              <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-cyan-400 to-blue-500 flex items-center justify-center shadow-md">
+                <Calendar size={18} className="text-white" />
+              </div>
               {t('dailyDashboard')}
             </h3>
             <input type="date" value={selectedDate} onChange={e => setSelectedDate(e.target.value)}
               className="input-field" />
           </div>
-          <div className="grid grid-cols-2 gap-3">
-            <div className="rounded-lg p-3.5" style={{ backgroundColor: 'var(--bg-surface-secondary)' }}>
+          <div className="grid grid-cols-2 gap-4">
+            <div className="kpi-card p-4">
               <span className="text-caption" style={{ color: 'var(--text-muted)' }}>{t('totalPallets')}</span>
-              <p className="text-xl font-bold mt-0.5" style={{ color: 'var(--text-primary)' }}>{dailyStats.totalPallets}</p>
+              <p className="text-2xl font-bold mt-1 bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent">{dailyStats.totalPallets}</p>
             </div>
-            <div className="rounded-lg p-3.5" style={{ backgroundColor: 'var(--bg-surface-secondary)' }}>
+            <div className="kpi-card p-4">
               <span className="text-caption" style={{ color: 'var(--text-muted)' }}>{t('totalDelivered')}</span>
-              <p className="text-xl font-bold mt-0.5" style={{ color: '#06B6D4' }}>{dailyStats.totalDelivered}</p>
+              <p className="text-2xl font-bold mt-1 bg-gradient-to-r from-cyan-500 to-blue-500 bg-clip-text text-transparent">{dailyStats.totalDelivered}</p>
             </div>
-            <div className="rounded-lg p-3.5" style={{ backgroundColor: 'var(--bg-surface-secondary)' }}>
+            <div className="kpi-card p-4">
               <span className="text-caption" style={{ color: 'var(--text-muted)' }}>{t('totalReceived')}</span>
-              <p className="text-xl font-bold mt-0.5" style={{ color: 'var(--accent)' }}>{dailyStats.totalReceived}</p>
+              <p className="text-2xl font-bold mt-1 bg-gradient-to-r from-indigo-500 to-purple-500 bg-clip-text text-transparent">{dailyStats.totalReceived}</p>
             </div>
-            <div className="rounded-lg p-3.5" style={{ backgroundColor: 'var(--bg-surface-secondary)' }}>
+            <div className="kpi-card p-4">
               <span className="text-caption" style={{ color: 'var(--text-muted)' }}>{t('truckOperations')}</span>
-              <p className="text-xl font-bold mt-0.5" style={{ color: '#EC4899' }}>{dailyStats.totalTrucks}</p>
+              <p className="text-2xl font-bold mt-1 bg-gradient-to-r from-pink-500 to-rose-500 bg-clip-text text-transparent">{dailyStats.totalTrucks}</p>
             </div>
           </div>
           <div className="mt-4 space-y-1.5 max-h-40 overflow-y-auto">
@@ -326,26 +328,28 @@ export default function Operations() {
         </div>
 
         <div className="card p-6">
-          <h3 className="font-semibold flex items-center gap-2 mb-4" style={{ color: 'var(--text-primary)' }}>
-            <Calendar size={18} style={{ color: '#F58AB5' }} />
+          <h3 className="text-subheading flex items-center gap-3 mb-5" style={{ color: 'var(--text-primary)' }}>
+            <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-pink-500 to-rose-500 flex items-center justify-center shadow-md">
+              <Calendar size={18} className="text-white" />
+            </div>
             {t('previousDay')} - {previousDay}
           </h3>
-          <div className="grid grid-cols-2 gap-3">
-            <div className="rounded-lg p-3.5" style={{ backgroundColor: 'var(--bg-surface-secondary)' }}>
+          <div className="grid grid-cols-2 gap-4">
+            <div className="kpi-card p-4">
               <span className="text-caption" style={{ color: 'var(--text-muted)' }}>{t('totalPallets')}</span>
-              <p className="text-xl font-bold mt-0.5" style={{ color: 'var(--text-primary)' }}>{previousDayOps.reduce((s, o) => s + o.palletQty, 0)}</p>
+              <p className="text-2xl font-bold mt-1 bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent">{previousDayOps.reduce((s, o) => s + o.palletQty, 0)}</p>
             </div>
-            <div className="rounded-lg p-3.5" style={{ backgroundColor: 'var(--bg-surface-secondary)' }}>
+            <div className="kpi-card p-4">
               <span className="text-caption" style={{ color: 'var(--text-muted)' }}>{t('totalDelivered')}</span>
-              <p className="text-xl font-bold mt-0.5" style={{ color: '#06B6D4' }}>{previousDayOps.filter(o => o.deliveryType === 'delivered').reduce((s, o) => s + o.palletQty, 0)}</p>
+              <p className="text-2xl font-bold mt-1 bg-gradient-to-r from-cyan-500 to-blue-500 bg-clip-text text-transparent">{previousDayOps.filter(o => o.deliveryType === 'delivered').reduce((s, o) => s + o.palletQty, 0)}</p>
             </div>
-            <div className="rounded-lg p-3.5" style={{ backgroundColor: 'var(--bg-surface-secondary)' }}>
+            <div className="kpi-card p-4">
               <span className="text-caption" style={{ color: 'var(--text-muted)' }}>{t('totalReceived')}</span>
-              <p className="text-xl font-bold mt-0.5" style={{ color: 'var(--accent)' }}>{previousDayOps.filter(o => o.deliveryType === 'received').reduce((s, o) => s + o.palletQty, 0)}</p>
+              <p className="text-2xl font-bold mt-1 bg-gradient-to-r from-indigo-500 to-purple-500 bg-clip-text text-transparent">{previousDayOps.filter(o => o.deliveryType === 'received').reduce((s, o) => s + o.palletQty, 0)}</p>
             </div>
-            <div className="rounded-lg p-3.5" style={{ backgroundColor: 'var(--bg-surface-secondary)' }}>
+            <div className="kpi-card p-4">
               <span className="text-caption" style={{ color: 'var(--text-muted)' }}>{t('truckOperations')}</span>
-              <p className="text-xl font-bold mt-0.5" style={{ color: '#EC4899' }}>{previousDayOps.reduce((s, o) => s + o.truckOperations, 0)}</p>
+              <p className="text-2xl font-bold mt-1 bg-gradient-to-r from-pink-500 to-rose-500 bg-clip-text text-transparent">{previousDayOps.reduce((s, o) => s + o.truckOperations, 0)}</p>
             </div>
           </div>
           <div className="mt-4 space-y-1.5 max-h-40 overflow-y-auto">
@@ -392,11 +396,11 @@ export default function Operations() {
           <table className="w-full text-sm">
             <thead>
               <tr className="table-header">
-                <th className="text-left px-5 py-3.5 text-label" style={{ color: 'var(--text-muted)' }}>{t('date')}</th>
-                <th className="text-left px-5 py-3.5 text-label" style={{ color: 'var(--text-muted)' }}>{t('customer')}</th>
-                <th className="text-left px-5 py-3.5 text-label hidden md:table-cell" style={{ color: 'var(--text-muted)' }}>{t('truckOperations')}</th>
-                <th className="text-left px-5 py-3.5 text-label" style={{ color: 'var(--text-muted)' }}>{t('palletQty')}</th>
-                <th className="text-left px-5 py-3.5 text-label hidden sm:table-cell" style={{ color: 'var(--text-muted)' }}>{t('deliveryType')}</th>
+                <th className="text-left px-6 py-4 text-label" style={{ color: 'var(--text-muted)' }}>{t('date')}</th>
+                <th className="text-left px-6 py-4 text-label" style={{ color: 'var(--text-muted)' }}>{t('customer')}</th>
+                <th className="text-left px-6 py-4 text-label hidden md:table-cell" style={{ color: 'var(--text-muted)' }}>{t('truckOperations')}</th>
+                <th className="text-left px-6 py-4 text-label" style={{ color: 'var(--text-muted)' }}>{t('palletQty')}</th>
+                <th className="text-left px-6 py-4 text-label hidden sm:table-cell" style={{ color: 'var(--text-muted)' }}>{t('deliveryType')}</th>
                 <th className="text-left px-5 py-3.5 text-label hidden lg:table-cell" style={{ color: 'var(--text-muted)' }}>{t('responsible')}</th>
                 <th className="text-left px-5 py-3.5 text-label hidden lg:table-cell" style={{ color: 'var(--text-muted)' }}>{t('forkliftDriver')}</th>
                 <th className="text-left px-5 py-3.5 text-label" style={{ color: 'var(--text-muted)' }}>{t('actions')}</th>
@@ -408,24 +412,26 @@ export default function Operations() {
               ) : (
                 filtered.sort((a, b) => b.date.localeCompare(a.date)).map(op => (
                   <tr key={op.id} className="table-row">
-                    <td className="px-5 py-3.5 text-caption" style={{ color: 'var(--text-secondary)' }}>{op.date}</td>
-                    <td className="px-5 py-3.5 font-medium" style={{ color: 'var(--text-primary)' }}>{op.customer}</td>
-                    <td className="px-5 py-3.5 hidden md:table-cell" style={{ color: 'var(--text-secondary)' }}>{op.truckOperations}</td>
-                    <td className="px-5 py-3.5 font-semibold" style={{ color: 'var(--text-primary)' }}>{op.palletQty}</td>
-                    <td className="px-5 py-3.5 hidden sm:table-cell">
+                    <td className="px-6 py-4 text-caption" style={{ color: 'var(--text-secondary)' }}>{op.date}</td>
+                    <td className="px-6 py-4 font-semibold" style={{ color: 'var(--text-primary)' }}>{op.customer}</td>
+                    <td className="px-6 py-4 hidden md:table-cell" style={{ color: 'var(--text-secondary)' }}>{op.truckOperations}</td>
+                    <td className="px-6 py-4">
+                      <span className="text-lg font-bold bg-gradient-to-r from-indigo-500 to-purple-500 bg-clip-text text-transparent">{op.palletQty}</span>
+                    </td>
+                    <td className="px-6 py-4 hidden sm:table-cell">
                       <span className="badge" style={{
-                        backgroundColor: op.deliveryType === 'delivered' ? 'rgba(6, 182, 212, 0.1)' : 'var(--accent-light)',
-                        color: op.deliveryType === 'delivered' ? '#06B6D4' : 'var(--accent)'
+                        backgroundColor: op.deliveryType === 'delivered' ? 'rgba(16, 185, 129, 0.12)' : 'rgba(99, 102, 241, 0.12)',
+                        color: op.deliveryType === 'delivered' ? 'var(--success)' : 'var(--accent)'
                       }}>
                         {op.deliveryType === 'delivered' ? t('delivered') : t('received')}
                       </span>
                     </td>
-                    <td className="px-5 py-3.5 hidden lg:table-cell" style={{ color: 'var(--text-secondary)' }}>{op.responsible}</td>
-                    <td className="px-5 py-3.5 hidden lg:table-cell" style={{ color: 'var(--text-secondary)' }}>{op.forkliftDriver}</td>
-                    <td className="px-5 py-3.5">
-                      <div className="flex gap-0.5">
-                        <button onClick={() => handleEdit(op)} className="p-1.5 rounded-md hover:bg-blue-50 dark:hover:bg-blue-900/20" style={{ color: 'var(--accent)' }}><Edit2 size={14} /></button>
-                        <button onClick={() => handleDelete(op.id)} className="p-1.5 rounded-md hover:bg-red-50 dark:hover:bg-red-900/20" style={{ color: 'var(--danger)' }}><Trash2 size={14} /></button>
+                    <td className="px-6 py-4 hidden lg:table-cell" style={{ color: 'var(--text-secondary)' }}>{op.responsible}</td>
+                    <td className="px-6 py-4 hidden lg:table-cell" style={{ color: 'var(--text-secondary)' }}>{op.forkliftDriver}</td>
+                    <td className="px-6 py-4">
+                      <div className="flex gap-1">
+                        <button onClick={() => handleEdit(op)} className="p-2 rounded-lg bg-indigo-50 dark:bg-indigo-900/20 hover:bg-indigo-100 dark:hover:bg-indigo-900/30 transition-colors" style={{ color: 'var(--accent)' }}><Edit2 size={14} /></button>
+                        <button onClick={() => handleDelete(op.id)} className="p-2 rounded-lg bg-red-50 dark:bg-red-900/20 hover:bg-red-100 dark:hover:bg-red-900/30 transition-colors" style={{ color: 'var(--danger)' }}><Trash2 size={14} /></button>
                       </div>
                     </td>
                   </tr>

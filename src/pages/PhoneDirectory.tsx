@@ -69,33 +69,33 @@ export default function PhoneDirectory() {
       </div>
 
       {/* Cards Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
         {filtered.length === 0 ? (
-          <div className="col-span-full text-center py-16" style={{ color: 'var(--text-muted)' }}>{t('noData')}</div>
+          <div className="col-span-full text-center py-20" style={{ color: 'var(--text-muted)' }}>{t('noData')}</div>
         ) : (
           filtered.map(contact => (
-            <div key={contact.id} className="card card-interactive p-5">
+            <div key={contact.id} className="card card-interactive p-6">
               <div className="flex items-start justify-between mb-4">
-                <div className="w-10 h-10 rounded-lg gradient-purple flex items-center justify-center font-semibold text-xs text-white shadow-sm">
+                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center font-bold text-sm text-white shadow-lg shadow-purple-500/30">
                   {contact.name.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase()}
                 </div>
-                <div className="flex gap-0.5">
-                  <button onClick={() => handleEdit(contact)} className="p-1.5 rounded-md hover:bg-blue-50 dark:hover:bg-blue-900/20" style={{ color: 'var(--accent)' }}><Edit2 size={14} /></button>
-                  <button onClick={() => handleDelete(contact.id)} className="p-1.5 rounded-md hover:bg-red-50 dark:hover:bg-red-900/20" style={{ color: 'var(--danger)' }}><Trash2 size={14} /></button>
+                <div className="flex gap-1">
+                  <button onClick={() => handleEdit(contact)} className="p-2 rounded-lg bg-indigo-50 dark:bg-indigo-900/20 hover:bg-indigo-100 dark:hover:bg-indigo-900/30 transition-colors" style={{ color: 'var(--accent)' }}><Edit2 size={14} /></button>
+                  <button onClick={() => handleDelete(contact.id)} className="p-2 rounded-lg bg-red-50 dark:bg-red-900/20 hover:bg-red-100 dark:hover:bg-red-900/30 transition-colors" style={{ color: 'var(--danger)' }}><Trash2 size={14} /></button>
                 </div>
               </div>
-              <h3 className="text-body font-semibold mb-1" style={{ color: 'var(--text-primary)' }}>{contact.name}</h3>
-              <p className="text-caption mb-3" style={{ color: 'var(--text-muted)' }}>{contact.position} • {contact.department}</p>
-              <div className="space-y-2">
-                <div className="flex items-center gap-2 text-caption" style={{ color: 'var(--text-secondary)' }}>
-                  <Phone size={12} style={{ color: 'var(--success)' }} />
-                  <span>{contact.phone}</span>
-                  {contact.extension && <span style={{ color: 'var(--text-muted)' }}>Ext. {contact.extension}</span>}
+              <h3 className="text-body font-bold mb-1" style={{ color: 'var(--text-primary)' }}>{contact.name}</h3>
+              <p className="text-caption mb-4" style={{ color: 'var(--text-muted)' }}>{contact.position} • {contact.department}</p>
+              <div className="space-y-2.5">
+                <div className="flex items-center gap-2.5 text-caption" style={{ color: 'var(--text-secondary)' }}>
+                  <Phone size={14} style={{ color: 'var(--success)' }} />
+                  <span className="font-medium">{contact.phone}</span>
+                  {contact.extension && <span className="badge" style={{ backgroundColor: 'rgba(16, 185, 129, 0.1)', color: 'var(--success)' }}>Ext. {contact.extension}</span>}
                 </div>
                 {contact.email && (
-                  <div className="flex items-center gap-2 text-caption" style={{ color: 'var(--text-secondary)' }}>
-                    <Mail size={12} style={{ color: 'var(--accent)' }} />
-                    <span className="truncate">{contact.email}</span>
+                  <div className="flex items-center gap-2.5 text-caption" style={{ color: 'var(--text-secondary)' }}>
+                    <Mail size={14} style={{ color: 'var(--accent)' }} />
+                    <span className="truncate font-medium">{contact.email}</span>
                   </div>
                 )}
               </div>

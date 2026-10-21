@@ -129,39 +129,39 @@ export default function Tasks() {
       </div>
 
       {/* Pending Tasks */}
-      <div className="space-y-2.5">
+      <div className="space-y-3">
         {pendingTasks.length === 0 ? (
-          <div className="card p-16 text-center">
-            <CheckCircle2 size={40} className="mx-auto mb-3" style={{ color: 'var(--success)' }} />
-            <p className="text-body font-medium" style={{ color: 'var(--text-secondary)' }}>{t('noPendingTasks')}</p>
+          <div className="card p-20 text-center">
+            <CheckCircle2 size={48} className="mx-auto mb-4" style={{ color: 'var(--success)' }} />
+            <p className="text-body font-semibold" style={{ color: 'var(--text-secondary)' }}>{t('noPendingTasks')}</p>
           </div>
         ) : (
           pendingTasks.map(task => (
             <div
               key={task.id}
-              className="card card-interactive p-4 group"
+              className="card card-interactive p-5 group"
             >
-              <div className="flex items-start gap-3">
+              <div className="flex items-start gap-4">
                 <button
                   onClick={() => handleComplete(task.id)}
-                  className="mt-0.5 p-1 rounded-md transition-colors shrink-0 hover:bg-blue-50 dark:hover:bg-blue-900/20"
+                  className="mt-1 p-1.5 rounded-lg transition-all shrink-0 hover:bg-indigo-50 dark:hover:bg-indigo-900/20"
                   style={{ color: 'var(--text-muted)' }}
                 >
-                  <Circle size={20} />
+                  <Circle size={22} />
                 </button>
 
                 <div className="flex-1 min-w-0">
-                  <div className="flex items-start justify-between gap-2 mb-2.5">
-                    <h3 className="text-body font-medium" style={{ color: 'var(--text-primary)' }}>{task.title}</h3>
+                  <div className="flex items-start justify-between gap-3 mb-3">
+                    <h3 className="text-body font-semibold" style={{ color: 'var(--text-primary)' }}>{task.title}</h3>
                     <button
                       onClick={() => handleDelete(task.id)}
-                      className="p-1.5 rounded-md opacity-0 group-hover:opacity-100 transition-all hover:bg-red-50 dark:hover:bg-red-900/20"
+                      className="p-2 rounded-lg opacity-0 group-hover:opacity-100 transition-all bg-red-50 dark:bg-red-900/20 hover:bg-red-100 dark:hover:bg-red-900/30"
                       style={{ color: 'var(--danger)' }}
                     >
                       <Trash2 size={14} />
                     </button>
                   </div>
-                  <div className="flex items-center gap-2 flex-wrap">
+                  <div className="flex items-center gap-2.5 flex-wrap">
                     <span className="badge" style={{
                       backgroundColor: getPriorityColor(task.priority).bg,
                       color: getPriorityColor(task.priority).text
@@ -170,8 +170,8 @@ export default function Tasks() {
                       {t(task.priority as any)}
                     </span>
                     {task.dueDate && (
-                      <span className="inline-flex items-center gap-1 text-caption" style={{ color: 'var(--text-muted)' }}>
-                        <Clock size={10} />
+                      <span className="inline-flex items-center gap-1.5 text-caption font-medium" style={{ color: 'var(--text-muted)' }}>
+                        <Clock size={11} />
                         {new Date(task.dueDate).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}
                       </span>
                     )}

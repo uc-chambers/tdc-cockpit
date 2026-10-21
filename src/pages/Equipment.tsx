@@ -55,32 +55,32 @@ export default function Equipment() {
   return (
     <div className="space-y-4">
       {/* Stats */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div className="card card-interactive p-5 flex items-center gap-4">
-          <div className="w-11 h-11 rounded-lg flex items-center justify-center" style={{ backgroundColor: 'rgba(6, 182, 212, 0.1)' }}>
-            <RadioIcon size={20} style={{ color: '#06B6D4' }} />
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+        <div className="kpi-card p-6 flex items-center gap-4">
+          <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-cyan-400 to-blue-500 flex items-center justify-center shadow-lg shadow-cyan-500/30">
+            <RadioIcon size={24} className="text-white" />
           </div>
           <div>
-            <p className="text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>{radioCount}</p>
-            <p className="text-caption" style={{ color: 'var(--text-muted)' }}>{t('radio')}</p>
+            <p className="text-3xl font-bold bg-gradient-to-r from-cyan-500 to-blue-500 bg-clip-text text-transparent">{radioCount}</p>
+            <p className="text-sm font-medium" style={{ color: 'var(--text-secondary)' }}>{t('radio')}</p>
           </div>
         </div>
-        <div className="card card-interactive p-5 flex items-center gap-4">
-          <div className="w-11 h-11 rounded-lg flex items-center justify-center" style={{ backgroundColor: 'var(--accent-light)' }}>
-            <Monitor size={20} style={{ color: 'var(--accent)' }} />
+        <div className="kpi-card p-6 flex items-center gap-4">
+          <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center shadow-lg shadow-indigo-500/30">
+            <Monitor size={24} className="text-white" />
           </div>
           <div>
-            <p className="text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>{computerCount}</p>
-            <p className="text-caption" style={{ color: 'var(--text-muted)' }}>{t('computer')}</p>
+            <p className="text-3xl font-bold bg-gradient-to-r from-indigo-500 to-purple-500 bg-clip-text text-transparent">{computerCount}</p>
+            <p className="text-sm font-medium" style={{ color: 'var(--text-secondary)' }}>{t('computer')}</p>
           </div>
         </div>
-        <div className="card card-interactive p-5 flex items-center gap-4">
-          <div className="w-11 h-11 rounded-lg flex items-center justify-center" style={{ backgroundColor: 'rgba(139, 92, 246, 0.1)' }}>
-            <span className="text-base font-bold" style={{ color: '#8B5CF6' }}>{equipment.length}</span>
+        <div className="kpi-card p-6 flex items-center gap-4">
+          <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center shadow-lg shadow-purple-500/30">
+            <span className="text-xl font-bold text-white">{equipment.length}</span>
           </div>
           <div>
-            <p className="text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>{equipment.length}</p>
-            <p className="text-caption" style={{ color: 'var(--text-muted)' }}>{t('total')}</p>
+            <p className="text-3xl font-bold bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent">{equipment.length}</p>
+            <p className="text-sm font-medium" style={{ color: 'var(--text-secondary)' }}>{t('total')}</p>
           </div>
         </div>
       </div>
@@ -123,35 +123,35 @@ export default function Equipment() {
           <table className="w-full text-sm">
             <thead>
               <tr className="table-header">
-                <th className="text-left px-5 py-3.5 text-label" style={{ color: 'var(--text-muted)' }}>{t('type')}</th>
-                <th className="text-left px-5 py-3.5 text-label" style={{ color: 'var(--text-muted)' }}>{t('brand')}</th>
-                <th className="text-left px-5 py-3.5 text-label hidden md:table-cell" style={{ color: 'var(--text-muted)' }}>{t('assignedOperator')}</th>
-                <th className="text-left px-5 py-3.5 text-label hidden lg:table-cell" style={{ color: 'var(--text-muted)' }}>{t('comments')}</th>
-                <th className="text-left px-5 py-3.5 text-label" style={{ color: 'var(--text-muted)' }}>{t('actions')}</th>
+                <th className="text-left px-6 py-4 text-label" style={{ color: 'var(--text-muted)' }}>{t('type')}</th>
+                <th className="text-left px-6 py-4 text-label" style={{ color: 'var(--text-muted)' }}>{t('brand')}</th>
+                <th className="text-left px-6 py-4 text-label hidden md:table-cell" style={{ color: 'var(--text-muted)' }}>{t('assignedOperator')}</th>
+                <th className="text-left px-6 py-4 text-label hidden lg:table-cell" style={{ color: 'var(--text-muted)' }}>{t('comments')}</th>
+                <th className="text-left px-6 py-4 text-label" style={{ color: 'var(--text-muted)' }}>{t('actions')}</th>
               </tr>
             </thead>
             <tbody>
               {filtered.length === 0 ? (
-                <tr><td colSpan={5} className="text-center py-16" style={{ color: 'var(--text-muted)' }}>{t('noData')}</td></tr>
+                <tr><td colSpan={5} className="text-center py-20" style={{ color: 'var(--text-muted)' }}>{t('noData')}</td></tr>
               ) : (
                 filtered.map(item => (
                   <tr key={item.id} className="table-row">
-                    <td className="px-5 py-3.5">
+                    <td className="px-6 py-4">
                       <span className="badge" style={{
-                        backgroundColor: item.type === 'radio' ? 'rgba(6, 182, 212, 0.1)' : 'var(--accent-light)',
+                        backgroundColor: item.type === 'radio' ? 'rgba(6, 182, 212, 0.12)' : 'rgba(99, 102, 241, 0.12)',
                         color: item.type === 'radio' ? '#06B6D4' : 'var(--accent)'
                       }}>
                         {item.type === 'radio' ? <RadioIcon size={10} /> : <Monitor size={10} />}
                         {item.type === 'radio' ? t('radio') : t('computer')}
                       </span>
                     </td>
-                    <td className="px-5 py-3.5 font-medium" style={{ color: 'var(--text-primary)' }}>{item.brand}</td>
-                    <td className="px-5 py-3.5 hidden md:table-cell" style={{ color: 'var(--text-secondary)' }}>{item.assignedOperator}</td>
-                    <td className="px-5 py-3.5 hidden lg:table-cell text-caption max-w-[200px] truncate" style={{ color: 'var(--text-muted)' }}>{item.comments}</td>
-                    <td className="px-5 py-3.5">
-                      <div className="flex gap-0.5">
-                        <button onClick={() => handleEdit(item)} className="p-1.5 rounded-md hover:bg-blue-50 dark:hover:bg-blue-900/20" style={{ color: 'var(--accent)' }}><Edit2 size={14} /></button>
-                        <button onClick={() => handleDelete(item.id)} className="p-1.5 rounded-md hover:bg-red-50 dark:hover:bg-red-900/20" style={{ color: 'var(--danger)' }}><Trash2 size={14} /></button>
+                    <td className="px-6 py-4 font-semibold" style={{ color: 'var(--text-primary)' }}>{item.brand}</td>
+                    <td className="px-6 py-4 hidden md:table-cell" style={{ color: 'var(--text-secondary)' }}>{item.assignedOperator}</td>
+                    <td className="px-6 py-4 hidden lg:table-cell text-caption max-w-[200px] truncate" style={{ color: 'var(--text-muted)' }}>{item.comments}</td>
+                    <td className="px-6 py-4">
+                      <div className="flex gap-1">
+                        <button onClick={() => handleEdit(item)} className="p-2 rounded-lg bg-indigo-50 dark:bg-indigo-900/20 hover:bg-indigo-100 dark:hover:bg-indigo-900/30 transition-colors" style={{ color: 'var(--accent)' }}><Edit2 size={14} /></button>
+                        <button onClick={() => handleDelete(item.id)} className="p-2 rounded-lg bg-red-50 dark:bg-red-900/20 hover:bg-red-100 dark:hover:bg-red-900/30 transition-colors" style={{ color: 'var(--danger)' }}><Trash2 size={14} /></button>
                       </div>
                     </td>
                   </tr>
