@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { useLanguage } from '../context/LanguageContext';
+import { useAuth } from '../context/AuthContext';
 import {
   LayoutDashboard, Users, Phone, Truck, Radio, ClipboardList,
-  Menu, X, Globe, ChevronDown
+  Menu, X, Globe, ChevronDown, StickyNote, ListTodo, LogOut
 } from 'lucide-react';
 
 interface LayoutProps {
@@ -13,15 +14,18 @@ interface LayoutProps {
 
 export default function Layout({ children, currentPage, onNavigate }: LayoutProps) {
   const { language, setLanguage, t } = useLanguage();
+  const { logout } = useAuth();
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const navItems = [
-    { id: 'dashboard', icon: LayoutDashboard, label: t('dashboard') },
+    { id: 'dashboard', icon: LayoutDashboard, label: t('taskCockpit') },
     { id: 'employees', icon: Users, label: t('employees') },
     { id: 'phones', icon: Phone, label: t('phoneDirectory') },
     { id: 'forklifts', icon: Truck, label: t('forklifts') },
     { id: 'equipment', icon: Radio, label: t('equipment') },
     { id: 'operations', icon: ClipboardList, label: t('operations') },
+    { id: 'notes', icon: StickyNote, label: t('quickNotes') },
+    { id: 'tasks', icon: ListTodo, label: t('tasks') },
   ];
 
   return (
@@ -78,8 +82,8 @@ export default function Layout({ children, currentPage, onNavigate }: LayoutProp
           })}
         </nav>
 
-        {/* Language Switch */}
-        <div className="p-4 border-t border-gray-700">
+        {/* Language Switch & Logout */}
+        <div className="p-4 border-t border-gray-700 space-y-2">
           <div className="flex items-center gap-2 bg-gray-700/50 rounded-lg p-2">
             <Globe size={16} className="text-gray-400" />
             <button
@@ -92,6 +96,13 @@ export default function Layout({ children, currentPage, onNavigate }: LayoutProp
               </span>
             </button>
           </div>
+          <button
+            onClick={logout}
+            className="w-full flex items-center gap-2 px-3 py-2 text-sm text-gray-400 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-colors"
+          >
+            <LogOut size={16} />
+            <span>{t('logout')}</span>
+          </button>
         </div>
       </aside>
 

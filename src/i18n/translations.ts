@@ -106,6 +106,24 @@ export const translations = {
     october: "October",
     november: "November",
     december: "December",
+    
+    // New sections
+    quickNotes: "Quick Notes",
+    notes: "Notes",
+    addNote: "Add Note",
+    tasks: "Tasks",
+    addTask: "Add Task",
+    pendingTasks: "Pending Tasks",
+    completedTasks: "Completed",
+    priority: "Priority",
+    high: "High",
+    medium: "Medium",
+    low: "Low",
+    dueDate: "Due Date",
+    markComplete: "Complete",
+    noPendingTasks: "All caught up! No pending tasks.",
+    taskCockpit: "TDC Cockpit",
+    logout: "Logout",
   },
   es: {
     // Navigation
@@ -214,6 +232,24 @@ export const translations = {
     october: "Octubre",
     november: "Noviembre",
     december: "Diciembre",
+    
+    // New sections
+    quickNotes: "Notas Rápidas",
+    notes: "Notas",
+    addNote: "Agregar Nota",
+    tasks: "Tareas",
+    addTask: "Agregar Tarea",
+    pendingTasks: "Tareas Pendientes",
+    completedTasks: "Completadas",
+    priority: "Prioridad",
+    high: "Alta",
+    medium: "Media",
+    low: "Baja",
+    dueDate: "Fecha Límite",
+    markComplete: "Completar",
+    noPendingTasks: "¡Todo al día! No hay tareas pendientes.",
+    taskCockpit: "TDC Cockpit",
+    logout: "Cerrar Sesión",
   }
 };
 

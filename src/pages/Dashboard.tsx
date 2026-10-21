@@ -1,7 +1,7 @@
 import React from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import { useData } from '../context/DataContext';
-import { Users, Truck, Radio, ClipboardList, TrendingUp, Package } from 'lucide-react';
+import { Users, Truck, Radio, ClipboardList, TrendingUp, Package, MapPin } from 'lucide-react';
 
 export default function Dashboard() {
   const { t } = useLanguage();
@@ -26,6 +26,23 @@ export default function Dashboard() {
       <div className="bg-gradient-to-r from-blue-600/20 to-purple-600/20 border border-blue-500/20 rounded-xl p-6">
         <h1 className="text-2xl font-bold mb-1">{t('welcomeBack')} 👋</h1>
         <p className="text-gray-400">{t('todayOverview')}</p>
+      </div>
+
+      {/* Location Card */}
+      <div className="bg-gray-800 border border-gray-700 rounded-xl p-5">
+        <div className="flex items-start gap-4">
+          <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center shrink-0">
+            <MapPin size={24} className="text-white" />
+          </div>
+          <div className="flex-1">
+            <h3 className="font-bold text-lg text-white mb-1">Troup Distribution Center</h3>
+            <p className="text-sm text-gray-400 mb-3">1394 VALLEY INDUSTRIAL BLVD, Valley, AL 36854</p>
+            <div className="inline-flex items-center gap-2 bg-gradient-to-r from-green-500/20 to-emerald-500/20 border border-green-500/30 rounded-lg px-3 py-2">
+              <span className="text-xs text-gray-400 uppercase tracking-wider">Total SQF</span>
+              <span className="text-lg font-bold text-green-400">495,687</span>
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* Stats Grid */}
