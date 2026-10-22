@@ -23,7 +23,7 @@ export default function Dashboard() {
   return (
     <div className="space-y-6">
       {/* Welcome */}
-      <div className="card p-6">
+      <div className="card p-6 animate-fade-in-up">
         <h1 className="text-display mb-2">
           <span className="bg-gradient-to-r from-indigo-600 via-purple-600 to-cyan-600 bg-clip-text text-transparent">{t('welcomeBack')}</span>
           <span className="ml-2">👋</span>
@@ -32,7 +32,7 @@ export default function Dashboard() {
       </div>
 
       {/* Hero Location Card */}
-      <div className="hero-card p-8">
+      <div className="hero-card p-8 animate-fade-in-up stagger-1">
         <div className="relative z-10 flex flex-col lg:flex-row items-start lg:items-center gap-6">
           <div className="flex items-center gap-5 flex-1">
             <div className="w-16 h-16 rounded-2xl bg-white/20 backdrop-blur-sm flex items-center justify-center border border-white/30">
@@ -57,7 +57,7 @@ export default function Dashboard() {
         {stats.map((stat, i) => {
           const Icon = stat.icon;
           return (
-            <div key={i} className="kpi-card p-6">
+            <div key={i} className={`kpi-card p-6 animate-fade-in-up stagger-${i + 2}`}>
               <div className="flex items-center justify-between mb-5">
                 <div className={`w-12 h-12 rounded-xl ${stat.gradient} flex items-center justify-center shadow-lg`}>
                   <Icon size={22} className="text-white" />
@@ -73,7 +73,7 @@ export default function Dashboard() {
 
       {/* Today's Operations Summary */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
-        <div className="card p-6">
+        <div className="card p-6 animate-fade-in-up stagger-6">
           <h3 className="text-subheading mb-5 flex items-center gap-2" style={{ color: 'var(--text-primary)' }}>
             <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center">
               <Package size={16} className="text-white" />
@@ -97,7 +97,7 @@ export default function Dashboard() {
         </div>
 
         {/* Recent Operations */}
-        <div className="card p-6">
+        <div className="card p-6 animate-fade-in-up stagger-7">
           <h3 className="text-subheading mb-5 flex items-center gap-2" style={{ color: 'var(--text-primary)' }}>
             <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center">
               <ClipboardList size={16} className="text-white" />
@@ -132,7 +132,7 @@ export default function Dashboard() {
 
       {/* Quick Info Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-        <div className="card p-6">
+        <div className="card p-6 animate-fade-in-up stagger-8">
           <h4 className="text-label mb-4 flex items-center gap-2" style={{ color: 'var(--text-muted)' }}>
             <div className="w-2 h-2 rounded-full bg-gradient-to-r from-cyan-400 to-blue-500"></div>
             Top Customers
@@ -157,7 +157,7 @@ export default function Dashboard() {
             );
           })()}
         </div>
-        <div className="card p-6">
+        <div className="card p-6 animate-fade-in-up stagger-8">
           <h4 className="text-label mb-4 flex items-center gap-2" style={{ color: 'var(--text-muted)' }}>
             <div className="w-2 h-2 rounded-full bg-gradient-to-r from-emerald-400 to-cyan-500"></div>
             Active Drivers
@@ -178,7 +178,7 @@ export default function Dashboard() {
             );
           })()}
         </div>
-        <div className="card p-6">
+        <div className="card p-6 animate-fade-in-up stagger-8">
           <h4 className="text-label mb-4 flex items-center gap-2" style={{ color: 'var(--text-muted)' }}>
             <div className="w-2 h-2 rounded-full bg-gradient-to-r from-purple-400 to-pink-500"></div>
             Business Units

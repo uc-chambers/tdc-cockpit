@@ -106,8 +106,8 @@ export default function PhoneDirectory() {
 
       {/* Modal Form */}
       {showForm && (
-        <div className="fixed inset-0 modal-overlay z-50 flex items-center justify-center p-4">
-          <div className="modal-content w-full max-w-lg max-h-[90vh] overflow-y-auto">
+        <div className="fixed inset-0 modal-overlay z-50 flex items-center justify-center p-4 animate-overlay-enter">
+          <div className="modal-content w-full max-w-lg max-h-[90vh] overflow-y-auto animate-modal-enter">
             <div className="flex items-center justify-between p-5 border-b" style={{ borderColor: 'var(--border-color)' }}>
               <h3 className="font-semibold" style={{ color: 'var(--text-primary)' }}>{editingId ? t('editContact') : t('addContact')}</h3>
               <button onClick={resetForm} className="p-1.5 rounded-lg transition-colors" style={{ color: 'var(--text-secondary)' }}><X size={18} /></button>

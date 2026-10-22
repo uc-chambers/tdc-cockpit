@@ -24,8 +24,17 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     localStorage.setItem('cockpit-theme', theme);
+    
+    // Add smooth transition class during theme change
+    document.documentElement.style.transition = 'background 400ms cubic-bezier(0.4, 0, 0.2, 1), color 400ms cubic-bezier(0.4, 0, 0.2, 1)';
+    
     document.documentElement.classList.remove('light', 'dark');
     document.documentElement.classList.add(theme);
+    
+    // Remove transition after animation completes
+    setTimeout(() => {
+      document.documentElement.style.transition = '';
+    }, 400);
   }, [theme]);
 
   const toggleTheme = () => {

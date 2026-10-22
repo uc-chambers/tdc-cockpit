@@ -128,8 +128,8 @@ export default function Employees() {
 
       {/* Modal Form */}
       {showForm && (
-        <div className="fixed inset-0 modal-overlay z-50 flex items-center justify-center p-4">
-          <div className="modal-content w-full max-w-lg max-h-[90vh] overflow-y-auto">
+        <div className="fixed inset-0 modal-overlay z-50 flex items-center justify-center p-4 animate-overlay-enter">
+          <div className="modal-content w-full max-w-lg max-h-[90vh] overflow-y-auto animate-modal-enter">
             <div className="flex items-center justify-between px-6 py-4 border-b" style={{ borderColor: 'var(--border-color)' }}>
               <h3 className="text-subheading flex items-center gap-2" style={{ color: 'var(--text-primary)' }}>
                 <UserPlus size={18} style={{ color: 'var(--accent)' }} />
