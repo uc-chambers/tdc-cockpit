@@ -24,7 +24,10 @@ export default function Dashboard() {
     <div className="space-y-6">
       {/* Welcome */}
       <div className="card p-6">
-        <h1 className="text-display mb-2 bg-gradient-to-r from-indigo-600 via-purple-600 to-cyan-600 bg-clip-text text-transparent">{t('welcomeBack')} 👋</h1>
+        <h1 className="text-display mb-2">
+          <span className="bg-gradient-to-r from-indigo-600 via-purple-600 to-cyan-600 bg-clip-text text-transparent">{t('welcomeBack')}</span>
+          <span className="ml-2">👋</span>
+        </h1>
         <p className="text-body" style={{ color: 'var(--text-secondary)' }}>{t('todayOverview')}</p>
       </div>
 
