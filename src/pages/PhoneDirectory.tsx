@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import { useData, PhoneContact } from '../context/DataContext';
 import { Plus, Search, Edit2, Trash2, X, Phone, Mail } from 'lucide-react';

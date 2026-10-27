@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import { useData, Employee } from '../context/DataContext';
 import { Plus, Search, Edit2, Trash2, X, UserPlus } from 'lucide-react';

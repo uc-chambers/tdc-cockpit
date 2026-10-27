@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import { Plus, Trash2, X, StickyNote, Pin, Clock } from 'lucide-react';
 import { v4 as uuidv4 } from 'uuid';

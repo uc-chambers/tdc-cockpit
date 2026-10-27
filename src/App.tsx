@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { LanguageProvider } from './context/LanguageContext';
 import { DataProvider } from './context/DataContext';
 import { AuthProvider, useAuth } from './context/AuthContext';
@@ -19,14 +19,6 @@ function AppContent() {
   const { isAuthenticated, isLocked } = useAuth();
   const [currentPage, setCurrentPage] = useState('dashboard');
 
-  if (!isAuthenticated) {
-    return <Login />;
-  }
-
-  if (isLocked) {
-    return <LockedScreen />;
-  }
-
   const renderPage = () => {
     switch (currentPage) {
       case 'dashboard': return <Dashboard />;
@@ -40,6 +32,14 @@ function AppContent() {
       default: return <Dashboard />;
     }
   };
+
+  if (!isAuthenticated) {
+    return <Login />;
+  }
+
+  if (isLocked) {
+    return <LockedScreen />;
+  }
 
   return (
     <Layout currentPage={currentPage} onNavigate={setCurrentPage}>
