@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import { useData, Forklift } from '../context/DataContext';
 import { Plus, Search, Edit2, Trash2, X } from 'lucide-react';

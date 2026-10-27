@@ -1,3 +1,4 @@
+import React from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import { useData } from '../context/DataContext';
 import { Users, Truck, Radio, ClipboardList, TrendingUp, Package, MapPin } from 'lucide-react';

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import { Plus, Trash2, X, CheckCircle2, Circle, ListTodo, Clock, AlertTriangle, Zap } from 'lucide-react';
 import { v4 as uuidv4 } from 'uuid';
