@@ -4,6 +4,7 @@ import { useData, Operation } from '../context/DataContext';
 import { Plus, Search, Edit2, Trash2, X, Calendar, TrendingUp, Package, Truck, Upload, FileSpreadsheet, AlertCircle } from 'lucide-react';
 import { v4 as uuidv4 } from 'uuid';
 import * as XLSX from 'xlsx';
+import { PieChart, Pie, Cell, ResponsiveContainer, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 
 export default function Operations() {
   const { t, language } = useLanguage();
@@ -80,6 +81,46 @@ export default function Operations() {
     const totalReceived = filteredByMonth.filter(op => op.deliveryType === 'received').reduce((sum, op) => sum + op.palletQty, 0);
     const totalTrucks = filteredByMonth.reduce((sum, op) => sum + op.truckOperations, 0);
     return { totalPallets, totalDelivered, totalReceived, totalTrucks };
+  }, [filteredByMonth]);
+
+  // Data for truck operations pie chart
+  const truckOperationsData = useMemo(() => {
+    const delivered = filteredByMonth
+      .filter(op => op.deliveryType === 'delivered')
+      .reduce((sum, op) => sum + op.truckOperations, 0);
+    const received = filteredByMonth
+      .filter(op => op.deliveryType === 'received')
+      .reduce((sum, op) => sum + op.truckOperations, 0);
+    
+    return [
+      { name: 'Delivered', value: delivered, color: '#06b6d4' },
+      { name: 'Received', value: received, color: '#8b5cf6' }
+    ];
+  }, [filteredByMonth]);
+
+  // Data for pallets trend chart (by day)
+  const palletsTrendData = useMemo(() => {
+    const dailyData = new Map<string, { date: string; delivered: number; received: number }>();
+    
+    filteredByMonth.forEach(op => {
+      const date = op.date;
+      if (!dailyData.has(date)) {
+        dailyData.set(date, { date, delivered: 0, received: 0 });
+      }
+      const dayData = dailyData.get(date)!;
+      if (op.deliveryType === 'delivered') {
+        dayData.delivered += op.palletQty;
+      } else {
+        dayData.received += op.palletQty;
+      }
+    });
+    
+    return Array.from(dailyData.values())
+      .sort((a, b) => a.date.localeCompare(b.date))
+      .map(item => ({
+        ...item,
+        date: new Date(item.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+      }));
   }, [filteredByMonth]);
 
   const dailyStats = useMemo(() => {
@@ -287,6 +328,180 @@ export default function Operations() {
               <span className="text-caption" style={{ color: 'var(--text-muted)' }}>{t('truckOperations')}</span>
             </div>
             <p className="text-2xl font-bold" style={{ color: '#EC4899' }}>{monthlyStats.totalTrucks}</p>
+          </div>
+        </div>
+        
+        {/* Charts Section */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 mt-5">
+          {/* Truck Operations Pie Chart */}
+          <div className="card p-6 animate-fade-in-up">
+            <div className="flex items-center justify-between mb-5">
+              <h4 className="text-subheading flex items-center gap-2" style={{ color: 'var(--text-primary)' }}>
+                <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-cyan-400 to-blue-500 flex items-center justify-center shadow-md">
+                  <Truck size={18} className="text-white" />
+                </div>
+                Truck Operations
+              </h4>
+              <span className="text-caption px-3 py-1 rounded-full" style={{ 
+                backgroundColor: 'rgba(6, 182, 212, 0.1)',
+                color: '#06b6d4'
+              }}>
+                {truckOperationsData.reduce((sum, item) => sum + item.value, 0)} total
+              </span>
+            </div>
+            <div className="h-72">
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart>
+                  <defs>
+                    <linearGradient id="gradientDelivered" x1="0" y1="0" x2="1" y2="1">
+                      <stop offset="0%" stopColor="#06b6d4" />
+                      <stop offset="100%" stopColor="#22d3ee" />
+                    </linearGradient>
+                    <linearGradient id="gradientReceived" x1="0" y1="0" x2="1" y2="1">
+                      <stop offset="0%" stopColor="#8b5cf6" />
+                      <stop offset="100%" stopColor="#a78bfa" />
+                    </linearGradient>
+                  </defs>
+                  <Pie
+                    data={truckOperationsData}
+                    cx="50%"
+                    cy="50%"
+                    innerRadius={70}
+                    outerRadius={100}
+                    paddingAngle={3}
+                    dataKey="value"
+                    stroke="none"
+                  >
+                    <Cell fill="url(#gradientDelivered)" />
+                    <Cell fill="url(#gradientReceived)" />
+                  </Pie>
+                  <Tooltip 
+                    contentStyle={{
+                      backgroundColor: 'var(--bg-surface)',
+                      border: '1px solid var(--border-color)',
+                      borderRadius: '12px',
+                      boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
+                      padding: '12px 16px'
+                    }}
+                    itemStyle={{ color: 'var(--text-primary)', fontWeight: '600' }}
+                    labelStyle={{ color: 'var(--text-secondary)', marginBottom: '8px' }}
+                  />
+                </PieChart>
+              </ResponsiveContainer>
+            </div>
+            <div className="flex justify-center gap-8 mt-4 pt-4 border-t" style={{ borderColor: 'var(--border-subtle)' }}>
+              {truckOperationsData.map((item, index) => (
+                <div key={index} className="flex flex-col items-center gap-1">
+                  <div className="flex items-center gap-2">
+                    <div className="w-3 h-3 rounded-full shadow-sm" style={{ 
+                      backgroundColor: item.color,
+                      boxShadow: `0 2px 8px ${item.color}40`
+                    }}></div>
+                    <span className="text-body font-medium" style={{ color: 'var(--text-secondary)' }}>
+                      {item.name}
+                    </span>
+                  </div>
+                  <span className="text-2xl font-bold" style={{ color: item.color }}>
+                    {item.value}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Pallets Trend Area Chart */}
+          <div className="card p-6 animate-fade-in-up stagger-1">
+            <div className="flex items-center justify-between mb-5">
+              <h4 className="text-subheading flex items-center gap-2" style={{ color: 'var(--text-primary)' }}>
+                <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center shadow-md">
+                  <Package size={18} className="text-white" />
+                </div>
+                Pallets Trend
+              </h4>
+              <span className="text-caption px-3 py-1 rounded-full" style={{ 
+                backgroundColor: 'rgba(139, 92, 246, 0.1)',
+                color: '#8b5cf6'
+              }}>
+                {palletsTrendData.length} days
+              </span>
+            </div>
+            <div className="h-72">
+              <ResponsiveContainer width="100%" height="100%">
+                <AreaChart data={palletsTrendData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
+                  <defs>
+                    <linearGradient id="colorDelivered" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="#06b6d4" stopOpacity={0.6}/>
+                      <stop offset="95%" stopColor="#06b6d4" stopOpacity={0.05}/>
+                    </linearGradient>
+                    <linearGradient id="colorReceived" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="#8b5cf6" stopOpacity={0.6}/>
+                      <stop offset="95%" stopColor="#8b5cf6" stopOpacity={0.05}/>
+                    </linearGradient>
+                  </defs>
+                  <CartesianGrid 
+                    strokeDasharray="3 3" 
+                    stroke="var(--border-color)" 
+                    opacity={0.2}
+                    vertical={false}
+                  />
+                  <XAxis 
+                    dataKey="date" 
+                    stroke="var(--text-muted)" 
+                    fontSize={11}
+                    tickLine={false}
+                    axisLine={false}
+                    dy={10}
+                  />
+                  <YAxis 
+                    stroke="var(--text-muted)" 
+                    fontSize={11}
+                    tickLine={false}
+                    axisLine={false}
+                    dx={-10}
+                  />
+                  <Tooltip 
+                    contentStyle={{
+                      backgroundColor: 'var(--bg-surface)',
+                      border: '1px solid var(--border-color)',
+                      borderRadius: '12px',
+                      boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
+                      padding: '12px 16px'
+                    }}
+                    itemStyle={{ color: 'var(--text-primary)', fontWeight: '600' }}
+                    labelStyle={{ color: 'var(--text-secondary)', marginBottom: '8px' }}
+                  />
+                  <Legend 
+                    verticalAlign="top" 
+                    height={36}
+                    iconType="circle"
+                    iconSize={8}
+                    wrapperStyle={{ fontSize: '13px', fontWeight: '500' }}
+                  />
+                  <Area 
+                    type="monotone" 
+                    dataKey="delivered" 
+                    name="Delivered"
+                    stroke="#06b6d4" 
+                    strokeWidth={2.5}
+                    fillOpacity={1} 
+                    fill="url(#colorDelivered)" 
+                    dot={{ fill: '#06b6d4', r: 3, strokeWidth: 0 }}
+                    activeDot={{ r: 6, stroke: '#06b6d4', strokeWidth: 2, fill: 'white' }}
+                  />
+                  <Area 
+                    type="monotone" 
+                    dataKey="received" 
+                    name="Received"
+                    stroke="#8b5cf6" 
+                    strokeWidth={2.5}
+                    fillOpacity={1} 
+                    fill="url(#colorReceived)" 
+                    dot={{ fill: '#8b5cf6', r: 3, strokeWidth: 0 }}
+                    activeDot={{ r: 6, stroke: '#8b5cf6', strokeWidth: 2, fill: 'white' }}
+                  />
+                </AreaChart>
+              </ResponsiveContainer>
+            </div>
           </div>
         </div>
       </div>
