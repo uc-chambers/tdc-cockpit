@@ -1,9 +1,10 @@
-import React, { useState, useMemo, useRef } from 'react';
+import React, { useState, useMemo, useRef, useEffect } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import { useData, Operation } from '../context/DataContext';
 import { Plus, Search, Edit2, Trash2, X, Calendar, TrendingUp, Package, Truck, Upload, FileSpreadsheet, AlertCircle } from 'lucide-react';
 import { v4 as uuidv4 } from 'uuid';
 import * as XLSX from 'xlsx';
+import { PieChart, Pie, Cell, ResponsiveContainer, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 
 export default function Operations() {
   const { t, language } = useLanguage();
@@ -35,6 +36,10 @@ export default function Operations() {
   const [importError, setImportError] = useState('');
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  // Pagination states
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(20);
+
   const months = [
     t('january'), t('february'), t('march'), t('april'), t('may'), t('june'),
     t('july'), t('august'), t('september'), t('october'), t('november'), t('december')
@@ -57,12 +62,65 @@ export default function Operations() {
     op.forkliftDriver.toLowerCase().includes(search.toLowerCase())
   );
 
+  // Pagination logic
+  const totalPages = Math.ceil(filtered.length / itemsPerPage);
+  const paginatedOperations = useMemo(() => {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    return filtered.slice(startIndex, endIndex);
+  }, [filtered, currentPage, itemsPerPage]);
+
+  // Reset to first page when filters change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [search, filterMonth, filterYear]);
+
   const monthlyStats = useMemo(() => {
     const totalPallets = filteredByMonth.reduce((sum, op) => sum + op.palletQty, 0);
     const totalDelivered = filteredByMonth.filter(op => op.deliveryType === 'delivered').reduce((sum, op) => sum + op.palletQty, 0);
     const totalReceived = filteredByMonth.filter(op => op.deliveryType === 'received').reduce((sum, op) => sum + op.palletQty, 0);
     const totalTrucks = filteredByMonth.reduce((sum, op) => sum + op.truckOperations, 0);
     return { totalPallets, totalDelivered, totalReceived, totalTrucks };
+  }, [filteredByMonth]);
+
+  // Data for truck operations pie chart
+  const truckOperationsData = useMemo(() => {
+    const delivered = filteredByMonth
+      .filter(op => op.deliveryType === 'delivered')
+      .reduce((sum, op) => sum + op.truckOperations, 0);
+    const received = filteredByMonth
+      .filter(op => op.deliveryType === 'received')
+      .reduce((sum, op) => sum + op.truckOperations, 0);
+    
+    return [
+      { name: 'Delivered', value: delivered, color: '#06b6d4' },
+      { name: 'Received', value: received, color: '#8b5cf6' }
+    ];
+  }, [filteredByMonth]);
+
+  // Data for pallets trend chart (by day)
+  const palletsTrendData = useMemo(() => {
+    const dailyData = new Map<string, { date: string; delivered: number; received: number }>();
+    
+    filteredByMonth.forEach(op => {
+      const date = op.date;
+      if (!dailyData.has(date)) {
+        dailyData.set(date, { date, delivered: 0, received: 0 });
+      }
+      const dayData = dailyData.get(date)!;
+      if (op.deliveryType === 'delivered') {
+        dayData.delivered += op.palletQty;
+      } else {
+        dayData.received += op.palletQty;
+      }
+    });
+    
+    return Array.from(dailyData.values())
+      .sort((a, b) => a.date.localeCompare(b.date))
+      .map(item => ({
+        ...item,
+        date: new Date(item.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+      }));
   }, [filteredByMonth]);
 
   const dailyStats = useMemo(() => {
@@ -272,6 +330,180 @@ export default function Operations() {
             <p className="text-2xl font-bold" style={{ color: '#EC4899' }}>{monthlyStats.totalTrucks}</p>
           </div>
         </div>
+        
+        {/* Charts Section */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 mt-5">
+          {/* Truck Operations Pie Chart */}
+          <div className="card p-6 animate-fade-in-up">
+            <div className="flex items-center justify-between mb-5">
+              <h4 className="text-subheading flex items-center gap-2" style={{ color: 'var(--text-primary)' }}>
+                <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-cyan-400 to-blue-500 flex items-center justify-center shadow-md">
+                  <Truck size={18} className="text-white" />
+                </div>
+                Truck Operations
+              </h4>
+              <span className="text-caption px-3 py-1 rounded-full" style={{ 
+                backgroundColor: 'rgba(6, 182, 212, 0.1)',
+                color: '#06b6d4'
+              }}>
+                {truckOperationsData.reduce((sum, item) => sum + item.value, 0)} total
+              </span>
+            </div>
+            <div className="h-72">
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart>
+                  <defs>
+                    <linearGradient id="gradientDelivered" x1="0" y1="0" x2="1" y2="1">
+                      <stop offset="0%" stopColor="#06b6d4" />
+                      <stop offset="100%" stopColor="#22d3ee" />
+                    </linearGradient>
+                    <linearGradient id="gradientReceived" x1="0" y1="0" x2="1" y2="1">
+                      <stop offset="0%" stopColor="#8b5cf6" />
+                      <stop offset="100%" stopColor="#a78bfa" />
+                    </linearGradient>
+                  </defs>
+                  <Pie
+                    data={truckOperationsData}
+                    cx="50%"
+                    cy="50%"
+                    innerRadius={70}
+                    outerRadius={100}
+                    paddingAngle={3}
+                    dataKey="value"
+                    stroke="none"
+                  >
+                    <Cell fill="url(#gradientDelivered)" />
+                    <Cell fill="url(#gradientReceived)" />
+                  </Pie>
+                  <Tooltip 
+                    contentStyle={{
+                      backgroundColor: 'var(--bg-surface)',
+                      border: '1px solid var(--border-color)',
+                      borderRadius: '12px',
+                      boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
+                      padding: '12px 16px'
+                    }}
+                    itemStyle={{ color: 'var(--text-primary)', fontWeight: '600' }}
+                    labelStyle={{ color: 'var(--text-secondary)', marginBottom: '8px' }}
+                  />
+                </PieChart>
+              </ResponsiveContainer>
+            </div>
+            <div className="flex justify-center gap-8 mt-4 pt-4 border-t" style={{ borderColor: 'var(--border-subtle)' }}>
+              {truckOperationsData.map((item, index) => (
+                <div key={index} className="flex flex-col items-center gap-1">
+                  <div className="flex items-center gap-2">
+                    <div className="w-3 h-3 rounded-full shadow-sm" style={{ 
+                      backgroundColor: item.color,
+                      boxShadow: `0 2px 8px ${item.color}40`
+                    }}></div>
+                    <span className="text-body font-medium" style={{ color: 'var(--text-secondary)' }}>
+                      {item.name}
+                    </span>
+                  </div>
+                  <span className="text-2xl font-bold" style={{ color: item.color }}>
+                    {item.value}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Pallets Trend Area Chart */}
+          <div className="card p-6 animate-fade-in-up stagger-1">
+            <div className="flex items-center justify-between mb-5">
+              <h4 className="text-subheading flex items-center gap-2" style={{ color: 'var(--text-primary)' }}>
+                <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center shadow-md">
+                  <Package size={18} className="text-white" />
+                </div>
+                Pallets Trend
+              </h4>
+              <span className="text-caption px-3 py-1 rounded-full" style={{ 
+                backgroundColor: 'rgba(139, 92, 246, 0.1)',
+                color: '#8b5cf6'
+              }}>
+                {palletsTrendData.length} days
+              </span>
+            </div>
+            <div className="h-72">
+              <ResponsiveContainer width="100%" height="100%">
+                <AreaChart data={palletsTrendData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
+                  <defs>
+                    <linearGradient id="colorDelivered" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="#06b6d4" stopOpacity={0.6}/>
+                      <stop offset="95%" stopColor="#06b6d4" stopOpacity={0.05}/>
+                    </linearGradient>
+                    <linearGradient id="colorReceived" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="#8b5cf6" stopOpacity={0.6}/>
+                      <stop offset="95%" stopColor="#8b5cf6" stopOpacity={0.05}/>
+                    </linearGradient>
+                  </defs>
+                  <CartesianGrid 
+                    strokeDasharray="3 3" 
+                    stroke="var(--border-color)" 
+                    opacity={0.2}
+                    vertical={false}
+                  />
+                  <XAxis 
+                    dataKey="date" 
+                    stroke="var(--text-muted)" 
+                    fontSize={11}
+                    tickLine={false}
+                    axisLine={false}
+                    dy={10}
+                  />
+                  <YAxis 
+                    stroke="var(--text-muted)" 
+                    fontSize={11}
+                    tickLine={false}
+                    axisLine={false}
+                    dx={-10}
+                  />
+                  <Tooltip 
+                    contentStyle={{
+                      backgroundColor: 'var(--bg-surface)',
+                      border: '1px solid var(--border-color)',
+                      borderRadius: '12px',
+                      boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
+                      padding: '12px 16px'
+                    }}
+                    itemStyle={{ color: 'var(--text-primary)', fontWeight: '600' }}
+                    labelStyle={{ color: 'var(--text-secondary)', marginBottom: '8px' }}
+                  />
+                  <Legend 
+                    verticalAlign="top" 
+                    height={36}
+                    iconType="circle"
+                    iconSize={8}
+                    wrapperStyle={{ fontSize: '13px', fontWeight: '500' }}
+                  />
+                  <Area 
+                    type="monotone" 
+                    dataKey="delivered" 
+                    name="Delivered"
+                    stroke="#06b6d4" 
+                    strokeWidth={2.5}
+                    fillOpacity={1} 
+                    fill="url(#colorDelivered)" 
+                    dot={{ fill: '#06b6d4', r: 3, strokeWidth: 0 }}
+                    activeDot={{ r: 6, stroke: '#06b6d4', strokeWidth: 2, fill: 'white' }}
+                  />
+                  <Area 
+                    type="monotone" 
+                    dataKey="received" 
+                    name="Received"
+                    stroke="#8b5cf6" 
+                    strokeWidth={2.5}
+                    fillOpacity={1} 
+                    fill="url(#colorReceived)" 
+                    dot={{ fill: '#8b5cf6', r: 3, strokeWidth: 0 }}
+                    activeDot={{ r: 6, stroke: '#8b5cf6', strokeWidth: 2, fill: 'white' }}
+                  />
+                </AreaChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* Daily Dashboard */}
@@ -410,7 +642,7 @@ export default function Operations() {
               {filtered.length === 0 ? (
                 <tr><td colSpan={8} className="text-center py-16" style={{ color: 'var(--text-muted)' }}>{t('noData')}</td></tr>
               ) : (
-                filtered.sort((a, b) => b.date.localeCompare(a.date)).map(op => (
+                paginatedOperations.sort((a, b) => b.date.localeCompare(a.date)).map(op => (
                   <tr key={op.id} className="table-row">
                     <td className="px-6 py-4 text-caption" style={{ color: 'var(--text-secondary)' }}>{op.date}</td>
                     <td className="px-6 py-4 font-semibold" style={{ color: 'var(--text-primary)' }}>{op.customer}</td>
@@ -440,6 +672,65 @@ export default function Operations() {
             </tbody>
           </table>
         </div>
+        
+        {/* Pagination Controls */}
+        {filtered.length > 0 && (
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 p-4 border-t" style={{ borderColor: 'var(--border-color)' }}>
+            <div className="flex items-center gap-2 text-sm" style={{ color: 'var(--text-secondary)' }}>
+              <span>Showing</span>
+              <select 
+                value={itemsPerPage} 
+                onChange={(e) => {
+                  setItemsPerPage(Number(e.target.value));
+                  setCurrentPage(1);
+                }}
+                className="input-field py-1 px-2"
+              >
+                <option value={10}>10</option>
+                <option value={20}>20</option>
+                <option value={50}>50</option>
+                <option value={100}>100</option>
+              </select>
+              <span>of {filtered.length} operations</span>
+            </div>
+            
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => setCurrentPage(1)}
+                disabled={currentPage === 1}
+                className="btn-secondary px-3 py-1 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                First
+              </button>
+              <button
+                onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                disabled={currentPage === 1}
+                className="btn-secondary px-3 py-1 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                Previous
+              </button>
+              
+              <span className="text-sm font-medium px-3" style={{ color: 'var(--text-primary)' }}>
+                Page {currentPage} of {totalPages}
+              </span>
+              
+              <button
+                onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                disabled={currentPage === totalPages}
+                className="btn-secondary px-3 py-1 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                Next
+              </button>
+              <button
+                onClick={() => setCurrentPage(totalPages)}
+                disabled={currentPage === totalPages}
+                className="btn-secondary px-3 py-1 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                Last
+              </button>
+            </div>
+          </div>
+        )}
       </div>
 
       {showForm && (
