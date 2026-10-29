@@ -1,0 +1,29 @@
+{
+  "commands": [
+    {
+      "command": "duplicate",
+      "params": ["duplicate"],
+      "action": "label"
+    },
+    {
+      "command": "invalid",
+      "params": ["invalid"],
+      "action": "label"
+    },
+    {
+      "command": "wontfix",
+      "params": ["wontfix"],
+      "action": "label"
+    },
+    {
+      "command": "good-first-issue",
+      "params": ["good first issue"],
+      "action": "label"
+    },
+    {
+      "command": "help-wanted",
+      "params": ["help wanted"],
+      "action": "label"
+    }
+  ]
+}

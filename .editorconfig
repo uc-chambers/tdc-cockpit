@@ -1,0 +1,44 @@
+# EditorConfig is awesome: https://editorconfig.org
+
+# top-most EditorConfig file
+root = true
+
+# Unix-style newlines with a newline ending every file
+[*]
+end_of_line = lf
+insert_final_newline = true
+charset = utf-8
+trim_trailing_whitespace = true
+
+# 2 space indentation
+[*.{js,jsx,ts,tsx,json,css,scss,html,vue}]
+indent_style = space
+indent_size = 2
+
+# 4 space indentation for markdown
+[*.md]
+indent_style = space
+indent_size = 4
+
+# Makefiles always use tabs
+[Makefile]
+indent_style = tab
+
+# Package.json files use 2 spaces
+[package.json]
+indent_style = space
+indent_size = 2
+
+# YAML files use 2 spaces
+[*.{yml,yaml}]
+indent_style = space
+indent_size = 2
+
+# Python files use 4 spaces
+[*.py]
+indent_style = space
+indent_size = 4
+
+# Batch files use tabs
+[*.bat]
+indent_style = tab

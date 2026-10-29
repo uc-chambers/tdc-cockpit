@@ -1,0 +1,52 @@
+# To get started with Dependabot version updates, you'll need to specify which
+# package ecosystems to update and where the package manifests are located.
+# Please see the documentation for all configuration options:
+# https://docs.github.com/github/administering-a-repository/configuration-options-for-dependency-updates
+
+version: 2
+updates:
+  # Enable version updates for npm
+  - package-ecosystem: "npm"
+    # Look for `package.json` and `lock` files in the `root` directory
+    directory: "/"
+    # Check the npm registry for updates every day (weekdays)
+    schedule:
+      interval: "weekly"
+    # Add reviewers
+    reviewers:
+      - "yourusername"
+    # Add labels
+    labels:
+      - "dependencies"
+      - "npm"
+    # Allow up to 10 open pull requests for dependencies
+    open-pull-requests-limit: 10
+    # Group dependencies to reduce PR noise
+    groups:
+      development-dependencies:
+        patterns:
+          - "@types/*"
+          - "typescript"
+          - "vite"
+          - "@vitejs/*"
+      production-dependencies:
+        patterns:
+          - "react*"
+          - "@supabase/*"
+          - "lucide-react"
+          - "tailwindcss"
+
+  # Enable version updates for GitHub Actions
+  - package-ecosystem: "github-actions"
+    # Look for `.github/workflows` in the `root` directory
+    directory: "/"
+    # Check for updates every week
+    schedule:
+      interval: "weekly"
+    # Add reviewers
+    reviewers:
+      - "yourusername"
+    # Add labels
+    labels:
+      - "dependencies"
+      - "github-actions"
