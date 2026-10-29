@@ -1,52 +1,9 @@
 import React, { useState } from 'react';
 import { LanguageProvider } from './context/LanguageContext';
 import { DataProvider } from './context/DataContext';
-import { AuthProvider, useAuth } from './context/AuthContext';
+import { AuthProvider } from './context/AuthContext';
 import { ThemeProvider } from './context/ThemeContext';
-import Layout from './components/Layout';
-import Login from './pages/Login';
-import LockedScreen from './pages/LockedScreen';
-import Dashboard from './pages/Dashboard';
-import Employees from './pages/Employees';
-import PhoneDirectory from './pages/PhoneDirectory';
-import Forklifts from './pages/Forklifts';
-import Equipment from './pages/Equipment';
-import Operations from './pages/Operations';
-import Notes from './pages/Notes';
-import Tasks from './pages/Tasks';
-
-function AppContent() {
-  const { isAuthenticated, isLocked } = useAuth();
-  const [currentPage, setCurrentPage] = useState('dashboard');
-
-  const renderPage = () => {
-    switch (currentPage) {
-      case 'dashboard': return <Dashboard />;
-      case 'employees': return <Employees />;
-      case 'phones': return <PhoneDirectory />;
-      case 'forklifts': return <Forklifts />;
-      case 'equipment': return <Equipment />;
-      case 'operations': return <Operations />;
-      case 'notes': return <Notes />;
-      case 'tasks': return <Tasks />;
-      default: return <Dashboard />;
-    }
-  };
-
-  if (!isAuthenticated) {
-    return <Login />;
-  }
-
-  if (isLocked) {
-    return <LockedScreen />;
-  }
-
-  return (
-    <Layout currentPage={currentPage} onNavigate={setCurrentPage}>
-      {renderPage()}
-    </Layout>
-  );
-}
+import AppContent from './AppContent';
 
 export default function App() {
   return (
