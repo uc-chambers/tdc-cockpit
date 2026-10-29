@@ -1,0 +1,56 @@
+# Configuration for labeler action
+# https://github.com/actions/labeler
+
+# Add 'documentation' label to any changes to docs
+documentation:
+  - README.md
+  - CONTRIBUTING.md
+  - CODE_OF_CONDUCT.md
+  - SECURITY.md
+  - CHANGELOG.md
+  - DEPLOYMENT_GUIDE.md
+  - TDC_COCKPIT_COMPLETE_PROMPT.md
+  - '**/*.md'
+
+# Add 'dependencies' label to any changes to package files
+dependencies:
+  - package.json
+  - package-lock.json
+
+# Add 'config' label to any changes to config files
+config:
+  - vite.config.js
+  - tsconfig.json
+  - .eslintrc*
+  - .prettierrc*
+
+# Add 'github-actions' label to any changes to workflows
+github-actions:
+  - .github/workflows/*
+
+# Add 'components' label to any changes to components
+components:
+  - src/components/**/*
+
+# Add 'pages' label to any changes to pages
+pages:
+  - src/pages/**/*
+
+# Add 'context' label to any changes to context
+context:
+  - src/context/**/*
+
+# Add 'styles' label to any changes to styles
+styles:
+  - src/index.css
+  - src/**/*.css
+
+# Add 'i18n' label to any changes to translations
+i18n:
+  - src/i18n/**/*
+
+# Add 'core' label to any changes to core files
+core:
+  - src/App.tsx
+  - src/AppContent.tsx
+  - src/main.tsx

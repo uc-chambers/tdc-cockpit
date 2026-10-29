@@ -1,11 +1,34 @@
 {
-  "name": "sandbox-workspace",
+  "name": "tdc-cockpit",
+  "version": "1.0.0",
+  "description": "Premium warehouse operations dashboard for Troup Distribution Center management",
   "private": true,
   "type": "module",
+  "author": "Uriel Ceballos",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/tdc-cockpit.git"
+  },
+  "homepage": "https://github.com/yourusername/tdc-cockpit#readme",
+  "bugs": {
+    "url": "https://github.com/yourusername/tdc-cockpit/issues"
+  },
+  "keywords": [
+    "dashboard",
+    "warehouse",
+    "operations",
+    "react",
+    "typescript",
+    "tailwindcss",
+    "vite"
+  ],
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "typecheck": "tsc --noEmit"
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit",
+    "lint": "echo \"No lint configured yet\""
   },
   "dependencies": {
     "@dnd-kit/core": "^6.1.0",
