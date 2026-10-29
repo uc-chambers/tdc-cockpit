@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, ReactNode } from 'react';
+import { initialOperations } from '../data/initialOperations';
 
 // Types
 export interface Employee {
@@ -78,7 +79,7 @@ export function DataProvider({ children }: { children: ReactNode }) {
   const [phoneContacts, setPhoneContactsState] = useState<PhoneContact[]>(() => loadFromStorage('cockpit-phones', []));
   const [forklifts, setForkliftsState] = useState<Forklift[]>(() => loadFromStorage('cockpit-forklifts', []));
   const [equipment, setEquipmentState] = useState<EquipmentItem[]>(() => loadFromStorage('cockpit-equipment', []));
-  const [operations, setOperationsState] = useState<Operation[]>(() => loadFromStorage('cockpit-operations', []));
+  const [operations, setOperationsState] = useState<Operation[]>(() => loadFromStorage('cockpit-operations', initialOperations));
 
   const setEmployees = (data: Employee[]) => {
     setEmployeesState(data);

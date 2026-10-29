@@ -35,6 +35,10 @@ export default function Operations() {
   const [importError, setImportError] = useState('');
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  // Pagination states
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(20);
+
   const months = [
     t('january'), t('february'), t('march'), t('april'), t('may'), t('june'),
     t('july'), t('august'), t('september'), t('october'), t('november'), t('december')
@@ -56,6 +60,19 @@ export default function Operations() {
     op.responsible.toLowerCase().includes(search.toLowerCase()) ||
     op.forkliftDriver.toLowerCase().includes(search.toLowerCase())
   );
+
+  // Pagination logic
+  const totalPages = Math.ceil(filtered.length / itemsPerPage);
+  const paginatedOperations = useMemo(() => {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    return filtered.slice(startIndex, endIndex);
+  }, [filtered, currentPage, itemsPerPage]);
+
+  // Reset to first page when filters change
+  useMemo(() => {
+    setCurrentPage(1);
+  }, [search, filterMonth, filterYear]);
 
   const monthlyStats = useMemo(() => {
     const totalPallets = filteredByMonth.reduce((sum, op) => sum + op.palletQty, 0);
@@ -410,7 +427,7 @@ export default function Operations() {
               {filtered.length === 0 ? (
                 <tr><td colSpan={8} className="text-center py-16" style={{ color: 'var(--text-muted)' }}>{t('noData')}</td></tr>
               ) : (
-                filtered.sort((a, b) => b.date.localeCompare(a.date)).map(op => (
+                paginatedOperations.sort((a, b) => b.date.localeCompare(a.date)).map(op => (
                   <tr key={op.id} className="table-row">
                     <td className="px-6 py-4 text-caption" style={{ color: 'var(--text-secondary)' }}>{op.date}</td>
                     <td className="px-6 py-4 font-semibold" style={{ color: 'var(--text-primary)' }}>{op.customer}</td>
@@ -440,6 +457,65 @@ export default function Operations() {
             </tbody>
           </table>
         </div>
+        
+        {/* Pagination Controls */}
+        {filtered.length > 0 && (
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 p-4 border-t" style={{ borderColor: 'var(--border-color)' }}>
+            <div className="flex items-center gap-2 text-sm" style={{ color: 'var(--text-secondary)' }}>
+              <span>Showing</span>
+              <select 
+                value={itemsPerPage} 
+                onChange={(e) => {
+                  setItemsPerPage(Number(e.target.value));
+                  setCurrentPage(1);
+                }}
+                className="input-field py-1 px-2"
+              >
+                <option value={10}>10</option>
+                <option value={20}>20</option>
+                <option value={50}>50</option>
+                <option value={100}>100</option>
+              </select>
+              <span>of {filtered.length} operations</span>
+            </div>
+            
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => setCurrentPage(1)}
+                disabled={currentPage === 1}
+                className="btn-secondary px-3 py-1 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                First
+              </button>
+              <button
+                onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                disabled={currentPage === 1}
+                className="btn-secondary px-3 py-1 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                Previous
+              </button>
+              
+              <span className="text-sm font-medium px-3" style={{ color: 'var(--text-primary)' }}>
+                Page {currentPage} of {totalPages}
+              </span>
+              
+              <button
+                onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                disabled={currentPage === totalPages}
+                className="btn-secondary px-3 py-1 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                Next
+              </button>
+              <button
+                onClick={() => setCurrentPage(totalPages)}
+                disabled={currentPage === totalPages}
+                className="btn-secondary px-3 py-1 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                Last
+              </button>
+            </div>
+          </div>
+        )}
       </div>
 
       {showForm && (
